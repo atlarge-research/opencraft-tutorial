@@ -2,6 +2,23 @@
 
 set -euo pipefail
 
+echo "Installing OpenCraft Deployer (ocd)..."
+BIN_DIR="/home/`whoami`/.local/bin"
+mkdir -p $BIN_DIR
+curl -sSL https://raw.githubusercontent.com/atlarge-research/opencraft-deploy-das5/master/ocd.py -o ${BIN_DIR}/ocd.py
+EXE="${BIN_DIR}/ocd"
+ln -s ${EXE}.py $EXE
+chmod +x $EXE
+echo "PATH=$EXE:\$PATH" >> ~/.bashrc
+source ~/.bashrc
+
+echo "Creating directories for Opencraft experiments..."
+EXPERIMENT_PATH=/var/scratch/`whoami`/opencraft-tutorial/opencraft-experiments/2020/first-experiment
+EXPERIMENT_RESOURCES_PATH=${EXPERIMENT_PATH}/resources
+mkdir -p $EXPERIMENT_RESOURCES_PATH
+EXPERIMENT_FIGURES_PATH=${EXPERIMENT_PATH}/figures
+mkdir -p $EXPERIMENT_FIGURES_PATH
+
 function downloadResource {
     DOWNLOAD_URL=$1
     OUTPUT=${2-""}
@@ -17,32 +34,15 @@ function downloadResource {
     cd -
 }
 
-echo "Installing OpenCraft Deployer (ocd)..."
-BIN_DIR="/home/`whoami`/.local/bin"
-mkdir -p $BIN_DIR
-curl -sSL https://raw.githubusercontent.com/atlarge-research/opencraft-deploy-das5/master/ocd.py -o ${BIN_DIR}/ocd.py
-EXE="${BIN_DIR}/ocd"
-ln -s ${EXE}.py $EXE
-chmod +x $EXE
-echo "PATH=$EXE:\$PATH" >> ~/.bashrc
-source ~/bashrc
-
-echo "Creating directories for Opencraft experiments..."
-EXPERIMENT_PATH=/var/scratch/`whoami`/opencraft-tutorial/opencraft-experiments/2020/first-experiment
-EXPERIMENT_RESOURCES_PATH=${EXPERIMENT_PATH}/resources
-mkdir -p $EXPERIMENT_RESOURCES_PATH
-EXPERIMENT_FIGURES_PATH=${EXPERIMENT_PATH}/figures
-mkdir -p $EXPERIMENT_FIGURES_PATH
-
 NEXUS_DOWNLOAD_URL=https://opencraft-vm.labs.vu.nl/nexus/service/rest/v1/search/assets/download
 
 echo "Downloading Opencraft..."
-downloadResource ${NEXUS_DOWNLOAD_URL}?repository=opencraft-group&group=science.atlarge.opencraft&name=opencraft&sort=version&maven.extension=jar
+downloadResource ${NEXUS_DOWNLOAD_URL}\?repository\=opencraft-group\&group\=science.atlarge.opencraft\&name\=opencraft\&sort\=version\&maven.extension\=jar
 downloadResource https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/main/configs/opencraft-dyconits-chunk.yml ../policy-chunk/resources/config/opencraft.yml
 downloadResource https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/main/configs/opencraft-dyconits-zero.yml ../policy-zero/resources/config/opencraft.yml
 
 echo "Downloading Yardstick..."
-downloadResource ${NEXUS_DOWNLOAD_URL}?repository=opencraft-group&group=nl.tudelft&name=yardstick&sort=version&maven.extension=jar
+downloadResource ${NEXUS_DOWNLOAD_URL}\?repository\=opencraft-group\&group\=nl.tudelft\&name\=yardstick\&sort\=version\&maven.extension\=jar
 downloadResource https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/main/configs/yardstick.toml
 
 echo "Downloading Pecosa..."
