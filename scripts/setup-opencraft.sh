@@ -20,12 +20,12 @@ function downloadResource {
 echo "Installing OpenCraft Deployer (ocd)..."
 BIN_DIR="/home/`whoami`/.local/bin"
 mkdir -p $BIN_DIR
-curl -sSL -X GET https://raw.githubusercontent.com/atlarge-research/opencraft-deploy-das5/master/ocd.py -o ${OPENCRAFT_FOLDER}/ocd.py
+curl -sSL -X GET https://raw.githubusercontent.com/atlarge-research/opencraft-deploy-das5/master/ocd.py -o ${BIN_DIR}/ocd.py
 EXE="/ocd"
 ln -s ${EXE}.py $EXE
 chmod +x $EXE
 echo "PATH=$EXE:\$PATH" >> ~/.bashrc
-. ~/bashrc
+source ~/bashrc
 
 echo "Creating directories for Opencraft experiments..."
 EXPERIMENT_PATH=/var/scratch/`whoami`/opencraft-tutorial/opencraft-experiments/2020/first-experiment
@@ -49,5 +49,5 @@ downloadResource https://raw.githubusercontent.com/jdonkervliet/pecosa/main/peco
 echo "Downloading experiment configuration..."
 downloadResource https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/main/configs/experiment-config.toml
 
-echo "To finish Opencraft setup, restart your SSH connection." # To reload $PATH
-echo "After restart, test that your setup was successful by running 'ocd --help'."
+echo "Opencraft setup complete."
+echo "Test that your setup was successful by running 'ocd --help'."
