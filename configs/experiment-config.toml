@@ -1,4 +1,4 @@
-iterations = 30
+iterations = 1
 
 [deployment]
 yardstick = [1,2]
