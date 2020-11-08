@@ -113,7 +113,7 @@ python /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/2020/firs
 Because your connection to the DAS-5 is text only, we need to move the resulting figures from the DAS-5 to your local machine before we can view them. Run the following command from your local computer:
 
 ```
-scp -r das5:/var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/2020/first-experiment/figures .
+scp -r das5:/var/scratch/<DAS5_USERNAME>/opencraft-tutorial/opencraft-experiments/2020/first-experiment/figures .
 ```
 
 There should now be a `figures` directory on your local machine which contains several figures. Open them to view your experiment results.
