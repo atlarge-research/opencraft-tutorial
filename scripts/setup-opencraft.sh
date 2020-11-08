@@ -34,7 +34,7 @@ function downloadResource {
         OPTS="-O"
     fi
     curl -sSL -X GET $DOWNLOAD_URL $OPTS
-    cd -
+    cd - > /dev/null
 }
 
 NEXUS_DOWNLOAD_URL=https://opencraft-vm.labs.vu.nl/nexus/service/rest/v1/search/assets/download
