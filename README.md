@@ -245,7 +245,7 @@ Start by running Opencraft on a DAS-5 worker node by starting an experiment or b
 ```
 ssh -L 25565:localhost:10100 das5 ssh -L 10100:localhost:25565 node0XY
 ```
-*Working out how this command work exactly is left as an exercise for the reader.*
+*Working out how this command works exactly is left as an exercise for the reader.*
 
 Finally, start your Minecraft 1.12.2 client on your local machine and connect to the server at `localhost:25565`. You should now be connected to the Opencraft server running on the DAS-5.
 
