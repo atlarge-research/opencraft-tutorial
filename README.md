@@ -226,14 +226,14 @@ You have reached the end of the Opencraft tutorial. At this point, it is worth r
 
 You are now ready to apply these lessons to the systems and experiments that you want to explore.
 
--
+---
 
 Thank you for completing this tutorial. We would appreciate it if you could share with us any feedback you might have.
 
 - Please share your comments through this anonymous one-page survey: <https://forms.gle/9RpbxTVoJ9EdyrPN6>.
 - If you noticed any mistakes in the tutorial, please let us know by creating a new issue here: <https://github.com/atlarge-research/opencraft-tutorial/issues>.
 
--
+---
 
 ## BONUS: Connect to Your Own Opencraft Game
 
