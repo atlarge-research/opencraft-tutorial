@@ -21,7 +21,7 @@ echo "Installing OpenCraft Deployer (ocd)..."
 BIN_DIR="/home/`whoami`/.local/bin"
 mkdir -p $BIN_DIR
 curl -sSL https://raw.githubusercontent.com/atlarge-research/opencraft-deploy-das5/master/ocd.py -o ${BIN_DIR}/ocd.py
-EXE="/ocd"
+EXE="${BIN_DIR}/ocd"
 ln -s ${EXE}.py $EXE
 chmod +x $EXE
 echo "PATH=$EXE:\$PATH" >> ~/.bashrc
