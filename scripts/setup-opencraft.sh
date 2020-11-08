@@ -20,7 +20,7 @@ function downloadResource {
 echo "Installing OpenCraft Deployer (ocd)..."
 BIN_DIR="/home/`whoami`/.local/bin"
 mkdir -p $BIN_DIR
-curl -sSL -X GET https://raw.githubusercontent.com/atlarge-research/opencraft-deploy-das5/master/ocd.py -o ${BIN_DIR}/ocd.py
+curl -sSL https://raw.githubusercontent.com/atlarge-research/opencraft-deploy-das5/master/ocd.py -o ${BIN_DIR}/ocd.py
 EXE="/ocd"
 ln -s ${EXE}.py $EXE
 chmod +x $EXE
@@ -31,6 +31,8 @@ echo "Creating directories for Opencraft experiments..."
 EXPERIMENT_PATH=/var/scratch/`whoami`/opencraft-tutorial/opencraft-experiments/2020/first-experiment
 EXPERIMENT_RESOURCES_PATH=${EXPERIMENT_PATH}/resources
 mkdir -p $EXPERIMENT_RESOURCES_PATH
+EXPERIMENT_FIGURES_PATH=${EXPERIMENT_PATH}/figures
+mkdir -p $EXPERIMENT_FIGURES_PATH
 
 NEXUS_DOWNLOAD_URL=https://opencraft-vm.labs.vu.nl/nexus/service/rest/v1/search/assets/download
 
@@ -48,6 +50,9 @@ downloadResource https://raw.githubusercontent.com/jdonkervliet/pecosa/main/peco
 
 echo "Downloading experiment configuration..."
 downloadResource https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/main/configs/experiment-config.toml
+
+echo "Downloading plot script..."
+curl -sSL https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/main/scripts/plot-network.py -o ${EXPERIMENT_FIGURES_PATH}/plot-network.py
 
 echo "Opencraft setup complete."
 echo "Test that your setup was successful by running 'ocd --help'."

@@ -107,7 +107,7 @@ Now run the following commands to collect and plot the results from your experim
 
 ```
 ocd collect /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/2020/first-experiment
-TODO ocd plot
+python /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/2020/first-experiment/figures/plot-network.py
 ```
 
 Because your connection to the DAS-5 is text only, we need to move the resulting figures from the DAS-5 to your local machine before we can view them. Run the following command from your local computer:
