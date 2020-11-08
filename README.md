@@ -1,14 +1,14 @@
 # Opencraft Tutorial
 
 Minecraft is one of the most best-selling games of all time.
-It has sold more than 200 million copies,[^1] and has more than 126 million active monthly players.[^2]
+It has sold more than 200 million copies,<sup id="a1">[1](#fn1)</sup> and has more than 126 million active monthly players.<sup id="a2">[2](#fn2)</sup>
 In contrast to traditional games, Minecraft gives players fine-grained control over the environment.
 Players can be creative and alter the environment to their liking.
 Players can decide to create buildings, mines, farms, logical circuits, and other constructions.
 Minecraft's success has led to the creation of hundreds of similar games, which we collectively refer to as _Minecraft-like games_.
 
 Despite the popularity of these games, their scalability is limited.
-The original Minecraft and popular spin-offs can only support between 200-300 players under favorable conditions.[^3]
+The original Minecraft and popular spin-offs can only support between 200-300 players under favorable conditions.<sup id="a3">[3](#fn3)</sup>
 To support its more than 126 million active monthly players, these games rely on the replication of small, isolated instances, preventing large groups of players from playing together.
 
 The Opencraft research project addresses these challenges through research aimed at improving our understanding of the performance of Minecraft-like games, and the design and evaluation of novel scalability techniques.
@@ -240,7 +240,7 @@ Thank you for completing this tutorial. We would appreciate it if you could shar
 While debugging your Opencraft experiments, it can be useful to see what the game and its emulated players are doing. Because the DAS-5 worker nodes are not accessible from the Internet, we cannot *directly* connect to the Opencraft server with our local Minecraft client.
 However, we can work around this by chaining two SSH tunnels.
 
-Start by running Opencraft on a DAS-5 worker node by starting an experiment or by launching the game manually. Next, use `preserve -llist` to identify which machine (e.g., node0XY) is running the Opencraft server.[^4] Now create two SSH tunnels from your local machine to the worker node that is running the Opencraft server, replacing `node0XY` with the correct hostname:
+Start by running Opencraft on a DAS-5 worker node by starting an experiment or by launching the game manually. Next, use `preserve -llist` to identify which machine (e.g., node0XY) is running the Opencraft server.<sup id="a4">[4](#fn4)</sup> Now create two SSH tunnels from your local machine to the worker node that is running the Opencraft server, replacing `node0XY` with the correct hostname:
 
 ```
 ssh -L 25565:localhost:10100 das5 ssh -L 10100:localhost:25565 node0XY
@@ -249,7 +249,12 @@ ssh -L 25565:localhost:10100 das5 ssh -L 10100:localhost:25565 node0XY
 
 Finally, start your Minecraft 1.12.2 client on your local machine and connect to the server at `localhost:25565`. You should now be connected to the Opencraft server running on the DAS-5.
 
-[^1]: See: <https://news.xbox.com/en-us/2020/05/18/minecraft-connecting-more-players-than-ever-before/>
-[^2]: Ibid.
-[^3]: van der Sar, et al. Yardstick: A Benchmark for Minecraft-like Services. ICPE 2019
-[^4]: When running an Opencraft experiment with `ocd`, the Opencraft server runs on the first node in your list of reserved nodes.
+---
+
+<a name="fn1">1.</a> <https://news.xbox.com/en-us/2020/05/18/minecraft-connecting-more-players-than-ever-before/> [↩](#a1)
+
+<a name="fn2">2.</a> Ibid. [↩](#a2)
+
+<a name="fn3">3.</a> van der Sar, et al. Yardstick: A Benchmark for Minecraft-like Services. ICPE 2019 [↩](#a3)
+
+<a name="fn4">4.</a> When running an Opencraft experiment with `ocd`, the Opencraft server runs on the first node in your list of reserved nodes. [↩](#a4)
