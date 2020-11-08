@@ -83,16 +83,6 @@ curl -sSL https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/
 
 Follow the installation instructions printed on your terminal to complete the setup.
 
-## BONUS: Join Your Own Opencraft Game
-
-This is a good moment to take a breath and check that everything we have done so far. TODO write.
-
-```
-preserve -np 1 -t 300
-```
-
-`TODO SSH SSH`
-
 # Exercises
 
 ## Run Opencraft Experiment
