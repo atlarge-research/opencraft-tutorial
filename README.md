@@ -249,7 +249,7 @@ ssh -L 25565:localhost:10100 das5 ssh -L 10100:localhost:25565 node0XY
 
 Finally, start your Minecraft 1.12.2 client on your local machine and connect to the server at `localhost:25565`. You should now be connected to the Opencraft server running on the DAS-5.
 
-[^1]: <https://news.xbox.com/en-us/2020/05/18/minecraft-connecting-more-players-than-ever-before/>
-[^2]: <https://news.xbox.com/en-us/2020/05/18/minecraft-connecting-more-players-than-ever-before/>
+[^1]: See: <https://news.xbox.com/en-us/2020/05/18/minecraft-connecting-more-players-than-ever-before/>
+[^2]: Ibid.
 [^3]: van der Sar, et al. Yardstick: A Benchmark for Minecraft-like Services. ICPE 2019
 [^4]: When running an Opencraft experiment with `ocd`, the Opencraft server runs on the first node in your list of reserved nodes.
