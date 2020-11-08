@@ -10,7 +10,10 @@ EXE="${BIN_DIR}/ocd"
 ln -s ${EXE}.py $EXE
 chmod +x $EXE
 echo "PATH=$EXE:\$PATH" >> ~/.bashrc
+
+set +u
 source ~/.bashrc
+set -u
 
 echo "Creating directories for Opencraft experiments..."
 EXPERIMENT_PATH=/var/scratch/`whoami`/opencraft-tutorial/opencraft-experiments/2020/first-experiment
