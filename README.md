@@ -149,7 +149,7 @@ Redo the operations discussed in the [previous section](#run-opencraft-experimen
 
 The final exercise in this tutorial involves modifying Opencraft's behavior by modifying its source code.
 
-You first need to download Maven, the toolchain used to compile Opencraft's source code. You can do so be executing the following commands:
+You first need to download Maven, the toolchain used to compile Opencraft's source code. You can do so by executing the following commands:
 
 ```
 cd
