@@ -1,6 +1,6 @@
 # Opencraft Tutorial
 
-Minecraft is one of the most best-selling games of all time.
+Minecraft is one of the best-selling games of all time.
 It has sold more than 200 million copies,<sup id="a1">[1](#fn1)</sup> and has more than 126 million active monthly players.<sup id="a2">[2](#fn2)</sup>
 In contrast to traditional games, Minecraft gives players fine-grained control over the environment.
 Players can be creative and alter the environment to their liking.
