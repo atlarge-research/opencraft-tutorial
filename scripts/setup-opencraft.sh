@@ -9,6 +9,8 @@ curl -sSL https://raw.githubusercontent.com/atlarge-research/opencraft-deploy-da
 EXE="${BIN_DIR}/ocd"
 ln -s ${EXE}.py $EXE
 chmod +x $EXE
+
+echo "module load prun" >> ~/.bashrc
 echo "PATH=$EXE:\$PATH" >> ~/.bashrc
 
 set +u
@@ -40,12 +42,11 @@ function downloadResource {
 NEXUS_DOWNLOAD_URL=https://opencraft-vm.labs.vu.nl/nexus/service/rest/v1/search/assets/download
 
 echo "Downloading Opencraft..."
-downloadResource ${NEXUS_DOWNLOAD_URL}\?repository\=opencraft-group\&group\=science.atlarge.opencraft\&name\=opencraft\&sort\=version\&maven.extension\=jar
-downloadResource https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/main/configs/opencraft-dyconits-chunk.yml ../policy-chunk/resources/config/opencraft.yml
+downloadResource "${NEXUS_DOWNLOAD_URL}?repository=opencraft-group&group=science.atlarge.opencraft&name=opencraft&sort=version&maven.extension=jar" opencraft.jar
 downloadResource https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/main/configs/opencraft-dyconits-zero.yml ../policy-zero/resources/config/opencraft.yml
 
 echo "Downloading Yardstick..."
-downloadResource ${NEXUS_DOWNLOAD_URL}\?repository\=opencraft-group\&group\=nl.tudelft\&name\=yardstick\&sort\=version\&maven.extension\=jar
+downloadResource "${NEXUS_DOWNLOAD_URL}?repository=opencraft-group&group=nl.tudelft&name=yardstick&sort=version&maven.extension=jar" yardstick.jar
 downloadResource https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/main/configs/yardstick.toml
 
 echo "Downloading Pecosa..."

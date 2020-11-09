@@ -67,21 +67,21 @@ Now we create a new Python environment that contains the exact Python runtime an
 wget https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/main/conda/spec-file.txt
 conda create --name opencraft --file spec-file.txt
 echo "conda activate opencraft" >> ~/.bashrc
+source ~/.bashrc
 rm spec-file.txt
+rm Miniconda3-latest-Linux-x86_64.sh
 ```
-Restart your SSH connection. You should now see `(opencraft)` prepended to your terminal prompt. You can also verify the correct Python runtime is used by running `which python`.
+You should now see `(opencraft)` prepended to your terminal prompt. You can also verify the correct Python runtime is used by running `which python`.
 
 ### Opencraft Tools
 
 To dowload and configure the Opencraft tools, run the following command:
 
 ```
-curl -sSL https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/main/scripts/setup-opencraft.sh | sh
+curl -sSL https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/main/scripts/setup-opencraft.sh | bash
 ```
 
 > PRO TIP: Never execute code straight from the Internet. :)
-
-Follow the installation instructions printed on your terminal to complete the setup.
 
 # Exercises
 
@@ -151,11 +151,13 @@ You first need to download Maven, the toolchain used to compile Opencraft's sour
 cd
 wget https://mirror.lyrahosting.com/apache/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.zip
 unzip apache-maven-3.6.3-bin.zip
-echo PATH="/home/$(whoami)/apache-maven-3.5.0/bin:\$PATH" >> ~/.bashrc
+echo PATH="/home/$(whoami)/apache-maven-3.6.3/bin:\$PATH" >> ~/.bashrc
 source ~/.bashrc
+mvn --version # Check that mvn command was added to PATH
+rm apache-maven-3.6.3-bin.zip
 ```
 
-Now you can get the Opencraft source code by running `git clone git@github.com:atlarge-research/opencraft-opencraft.git opencraft`. This will create a directory called `opencraft` containing the Opencraft source code.
+Now you can get the Opencraft source code by running `git clone https://github.com/atlarge-research/opencraft-opencraft.git opencraft`. This will create a directory called `opencraft` containing the Opencraft source code.
 
 > PRO TIP: Editing code directly on the DAS-5 is slow and error prone. Modern IDEs, such as Intellij, can deploy code directly to a remote machine. This allows you to edit code in your favorite editor, and use it on the DAS-5. Setting up such automatic deployment is left as an exercise for the reader.
 
@@ -167,9 +169,26 @@ cd opencraft/src/main/java/science/atlarge/opencraft/opencraft/messaging/dyconit
 cp ChunkPolicy.java NewChunkPolicy.java
 ```
 
-Swap the parameters passed to the `Bounds` constructor in `NewChunkPolicy.java`:
+ In `NewChunkPolicy.java`, change the class name and swap the parameters passed to the `Bounds` constructor:
 
 ```
+ import science.atlarge.opencraft.dyconits.policies.DyconitPolicy;
+ import science.atlarge.opencraft.dyconits.policies.DyconitSubscribeCommand;
+ 
+-public class ChunkPolicy implements DyconitPolicy<Player, Message> {
++public class NewChunkPolicy implements DyconitPolicy<Player, Message> {
+ 
+     private final int viewDistance;
+     private static final String CATCH_ALL_DYCONIT_NAME = "catch-all";
+ 
+-    public ChunkPolicy(int viewDistance) {
++    public NewChunkPolicy(int viewDistance) {
+         this.viewDistance = viewDistance;
+     }
+ 
+
+...
+
          for (int x = centerX - radius; x <= centerX + radius; x++) {
              for (int z = centerZ - radius; z <= centerZ + radius; z++) {
                  Chunk chunk = world.getChunkAt(x, z);
@@ -180,22 +199,22 @@ Swap the parameters passed to the `Bounds` constructor in `NewChunkPolicy.java`:
          return chunks;
 ```
 
-Add an `else if` statement in `PolicyFactory.java` to enable the new policy:
+In `PolicyFactory.java`, add an `else if` statement to enable the new policy:
 
 ```
              return new ZeroBoundsPolicy();
          } else if (nameMatches(InfiniteBoundsPolicy.class, policyName)) {
              return new InfiniteBoundsPolicy();
 +        } else if (nameMatches(NewChunkPolicy.class, policyName)) {
-+            return new NewChunkPolicy();
++            return new NewChunkPolicy(server.getViewDistance());
          }
          return null;
      }
 ```
 
-Now that we have added a new policy to Opencraft, we can compile the code. To do so, run `mvn package -DskipTests`. (You can also enable the tests, but that will significantly increase the compilation time.) Upon successful compilation, a freshly compiled version of Opencraft should be waiting in the `target` directory.
+Now that we have added a new policy to Opencraft, we can compile the code. To do so, go back to `~/opencraft` and run `mvn package -DskipTests`. This will take a while... (You can enable the tests, but that will increase the compilation time even further.) Upon successful compilation, a freshly compiled version of Opencraft should be waiting in the `target` directory.
 
-Repeat the steps in the [previous section](#modify-opencraft-policy) to add a new configuration to your experiment. This time, call the new configuration `policy-new`. In the corresponding `opencraft.yml` configuration file, change the policy to `NewChunkPolicy`.
+Repeat the steps in the [previous section](#modify-opencraft-configuration) to add a new configuration to your experiment. This time, call the new configuration `policy-new`. In the corresponding `opencraft.yml` configuration file, change the policy to `NewChunkPolicy`.
 
 The new policy is not supported by the Opencraft version we have used in our previous experiments. To use the new version of Opencraft, copy the new Opencraft jar to the new configuration's resources folder:
 
@@ -233,7 +252,7 @@ However, we can work around this by chaining two SSH tunnels.
 Start by running Opencraft on a DAS-5 worker node by starting an experiment or by launching the game manually. Next, use `preserve -llist` to identify which machine (e.g., node0XY) is running the Opencraft server.<sup id="a4">[4](#fn4)</sup> Now create two SSH tunnels from your local machine to the worker node that is running the Opencraft server, replacing `node0XY` with the correct hostname:
 
 ```
-ssh -L 25565:localhost:10100 das5 ssh -L 10100:localhost:25565 node0XY
+ssh -L 25565:node0XY:25565 das5
 ```
 *Working out how this command works exactly is left as an exercise for the reader.*
 
