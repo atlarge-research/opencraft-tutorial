@@ -43,7 +43,9 @@ Host das5
 You should now be able to connect to the DAS-5 using the command `ssh das5`.
 SSH will first request your VUnet password, and then your DAS-5 password.
 
-> PROTIP: If you connect to the DAS-5 regularly, it is worth switching to public-key authentication using `ssh-keygen` and `ssh-copy-id`. This is left as an exercise for the reader.
+> PRO TIP: If you connect to the DAS-5 regularly, it is worth switching to public-key authentication using `ssh-keygen` and `ssh-copy-id`. This is left as an exercise for the reader. Unfortunately, ssh.data.vu.nl does not accept public-key authentication, but DAS-5 does.
+
+> PRO TIP: You do not need the `ProxyJump` command while working from the VU campus network.
 
 ## Collecting Your Tools
 
