@@ -49,11 +49,11 @@ SSH will first request your VUnet password, and then your DAS-5 password.
 
 ## Collecting Your Tools
 
-Opencraft consists of a collection of tools. We will set perform the necessary setup in two steps. First we create a Python environment with the necessary packages, and then we download the Opencraft-specific tools. From this point onwards, all commands should be executed on the DAS-5, unless otherwise specified.
+Opencraft consists of a collection of tools. The setup consists of two steps: creating a Python environment with the necessary packages, and downloading the Opencraft-specific tools. From this point onwards, all commands should be executed on the DAS-5, unless otherwise specified.
 
 ### Python
 
-We will use Miniconda to create a Python environment with the necessary packages.
+Use Miniconda to create a Python environment with the necessary packages.
 Miniconda simplifies the process of creating portable Python environments with specfic Python runtime and package versions.
 
 Download the Miniconda installer for Linux:
@@ -63,7 +63,7 @@ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 ```
 Run the installer, and **make sure to install Miniconda in `/var/scratch/<USERNAME>/`**.
 
-Now we create a new Python environment that contains the exact Python runtime and package versions we need to run the Opencraft tools.
+Now create a new Python environment that contains the exact Python runtime and package versions needed to run the Opencraft tools.
 
 ```
 wget https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/main/conda/spec-file.txt
@@ -89,6 +89,8 @@ curl -sSL https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/
 
 ## Run Opencraft Experiment
 
+In this part, you will run your first experiment with Opencraft.
+
 Run the following command to reserve 3 machines on the DAS-5 for 900 seconds (15 minutes):
 
 ```
@@ -112,7 +114,7 @@ ocd collect /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/2020
 python /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/2020/first-experiment/figures/plot-network.py
 ```
 
-Because your connection to the DAS-5 is text only, we need to move the resulting figures from the DAS-5 to your local machine before we can view them. Run the following command from your local computer:
+Because your connection to the DAS-5 is text only, you will need to move the resulting figures from the DAS-5 to your local machine before you can view them. Run the following command from your local computer:
 
 ```
 scp -r das5:/var/scratch/<DAS5_USERNAME>/opencraft-tutorial/opencraft-experiments/2020/first-experiment/figures .
@@ -126,7 +128,7 @@ There should now be a `figures` directory on your local machine which contains s
 
 ## Modify Opencraft Configuration
 
-Now we will change the configuration of Opencraft to see how that affects the system behavior
+In this part, you will change the configuration of Opencraft to see how that affects the system behavior
 
 Run the following commands to create a new configuration for your current experiment:
 
@@ -214,11 +216,11 @@ In `PolicyFactory.java`, add an `else if` statement to enable the new policy:
      }
 ```
 
-Now that we have added a new policy to Opencraft, we can compile the code. To do so, go back to `~/opencraft` and run `mvn package -DskipTests`. This will take a while... (You can enable the tests, but that will increase the compilation time even further.) Upon successful compilation, a freshly compiled version of Opencraft should be waiting in the `target` directory.
+Now that you have added a new policy to Opencraft, you can compile the code. To do so, go back to `~/opencraft` and run `mvn package -DskipTests`. This will take a while... (You can enable the tests, but that will increase the compilation time even further.) Upon successful compilation, a freshly compiled version of Opencraft should be waiting in the `target` directory.
 
 Repeat the steps in the [previous section](#modify-opencraft-configuration) to add a new configuration to your experiment. This time, call the new configuration `policy-new`. In the corresponding `opencraft.yml` configuration file, change the policy to `NewChunkPolicy`.
 
-The new policy is not supported by the Opencraft version we have used in our previous experiments. To use the new version of Opencraft, copy the new Opencraft jar to the new configuration's resources folder:
+The new policy is not supported by the Opencraft version you used in our previous experiments. To use the new version of Opencraft, copy the new Opencraft jar to the new configuration's resources folder:
 
 ```
 cp ~/opencraft/target/opencraft*.jar /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/2020/first-experiment/policy-new/resources
@@ -248,8 +250,8 @@ Thank you for completing this tutorial. We would appreciate it if you could shar
 
 ## BONUS: Connect to Your Own Opencraft Game
 
-While debugging your Opencraft experiments, it can be useful to see what the game and its emulated players are doing. Because the DAS-5 worker nodes are not accessible from the Internet, we cannot *directly* connect to the Opencraft server with our local Minecraft client.
-However, we can work around this by chaining two SSH tunnels.
+While debugging your Opencraft experiments, it can be useful to see what the game and its emulated players are doing. Because the DAS-5 worker nodes are not accessible from the Internet, you cannot *directly* connect to the Opencraft server with our local Minecraft client.
+However, you can work around this by chaining two SSH tunnels.
 
 Start by running Opencraft on a DAS-5 worker node by starting an experiment or by launching the game manually. Next, use `preserve -llist` to identify which machine (e.g., node0XY) is running the Opencraft server.<sup id="a4">[4](#fn4)</sup> Now create two SSH tunnels from your local machine to the worker node that is running the Opencraft server, replacing `node0XY` with the correct hostname:
 
