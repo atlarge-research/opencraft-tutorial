@@ -32,7 +32,7 @@ with open(str(output_dir.joinpath("packets_over_time.pdf")), "wb") as f:
 
 
 df = df.groupby(["iteration", "config"], as_index=False).max()
-df["packets_per_second"] = df["net.packets_sent.ib0"] / df["timestamp"]
+df["packets_per_second"] = df["net.packets_sent.ib0"] / (df["timestamp"] / 1000)
 fig = px.box(df, x="config", y="packets_per_second", template=template,
              labels={"config": "Dyconit policy", "packets_per_second": "packets per second"})
 with open(str(output_dir.joinpath("packets_per_second_over_policy.pdf")), "wb") as f:
