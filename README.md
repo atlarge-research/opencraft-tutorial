@@ -137,7 +137,7 @@ Run the following commands to create a new configuration for your current experi
 
 ```
 cd /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/2020/first-experiment
-mkdir -p policy-chunk/resources/config
+mkdir -p policy-chunk/resources/config # Create a dir for the new Opencraft config. Change 'policy-chunk' if needed.
 cp policy-zero/resources/config/opencraft.yml policy-chunk/resources/config
 ```
 
