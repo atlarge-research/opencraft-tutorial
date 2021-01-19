@@ -67,6 +67,7 @@ the home folder does not have sufficient space for large python environments. An
 Now create a new Python environment that contains the exact Python runtime and package versions needed to run the Opencraft tools.
 
 ```
+source .bashrc
 wget https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/main/conda/spec-file.txt
 conda create --name opencraft --file spec-file.txt
 echo "conda activate opencraft" >> ~/.bashrc
