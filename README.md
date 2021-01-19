@@ -83,6 +83,7 @@ To dowload and configure the Opencraft tools, run the following command:
 
 ```
 curl -sSL https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/main/scripts/setup-opencraft.sh | bash
+source ~/.bashrc # load the prun module
 ```
 
 > PRO TIP: Never execute code straight from the Internet. :)
@@ -96,7 +97,6 @@ In this part, you will run your first experiment with Opencraft.
 Run the following command to reserve 3 machines on the DAS-5 for 900 seconds (15 minutes):
 
 ```
-source ~/.bashrc # load the prun module
 preserve -np 3 -t 900
 ```
 
