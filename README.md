@@ -61,7 +61,8 @@ Download the Miniconda installer for Linux:
 ```
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 ```
-Run the installer, and **make sure to install Miniconda in `/var/scratch/<USERNAME>/`**.
+Run the installer. It will ask where Miniconda should be installed. **Make sure to install Miniconda in `/var/scratch/<USERNAME>/`**;
+the home folder does not have sufficient space for large python environments.
 
 Now create a new Python environment that contains the exact Python runtime and package versions needed to run the Opencraft tools.
 
