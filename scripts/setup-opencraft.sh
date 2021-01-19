@@ -46,7 +46,7 @@ downloadResource "${NEXUS_DOWNLOAD_URL}?repository=opencraft-group&group=science
 downloadResource https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/main/configs/opencraft-dyconits-zero.yml ../policy-zero/resources/config/opencraft.yml
 
 echo "Downloading Yardstick..."
-downloadResource "${NEXUS_DOWNLOAD_URL}?repository=opencraft-group&group=nl.tudelft&name=yardstick&sort=version&maven.extension=jar" yardstick.jar
+downloadResource "${NEXUS_DOWNLOAD_URL}?repository=opencraft-releases&group=nl.tudelft&name=yardstick&sort=version&maven.extension=jar" yardstick.jar
 downloadResource https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/main/configs/yardstick.toml
 
 echo "Downloading Pecosa..."
