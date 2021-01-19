@@ -92,7 +92,8 @@ source ~/.bashrc # load the prun module
 
 ## Run Opencraft Experiment
 
-In this part, you will run your first experiment with Opencraft.
+In this section, you will run your first experiment with Opencraft.
+The goal of the experiment is to find out the network usage of the game when connecting 50 players.
 
 Run the following command to reserve 3 machines on the DAS-5 for 900 seconds (15 minutes):
 
@@ -101,6 +102,9 @@ preserve -np 3 -t 900
 ```
 
 Now use `preserve -llist` to list all reservations. Yours will be near the bottom. Note the reservation number you have been assigned, shown in the first column.
+
+The following command uses the OpenCraft Deployer to run your first experiment.
+It deploys Opencraft together with Yardstick, a benchmark that emulates players and monitors Opencraft's system behavior.
 
 ```
 ocd run /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/2020/first-experiment <reservation-number>
@@ -131,7 +135,11 @@ There should now be a `figures` directory on your local machine which contains s
 
 ## Modify Opencraft Configuration
 
-In this part, you will change the configuration of Opencraft to see how that affects the system behavior
+In this section, we run a second experiment while enabling the _Dyconit chunk policy_ in Opencraft.
+Dyconits are a technique to reduce network usage by allowing optimistically bounded inconsistency.
+The chunk policy makes players receive fewer updates for objects that are further away.
+Because these objects are further away, they player is less likely to focus on them, and less able to see small differences in their appearance or location.
+Hopefully, this will significantly reduce the network usage of the game.
 
 Run the following commands to create a new configuration for your current experiment:
 
@@ -150,7 +158,9 @@ Redo the operations discussed in the [previous section](#run-opencraft-experimen
 
 ## Modify Opencraft Policy
 
-The final exercise in this tutorial involves modifying Opencraft's behavior by modifying its source code.
+In this section, we run a final experiment in which you create your own policy. Can we further reduce the network usage?
+Can we do so without creating inconsistencies large enough to be noticed by players?
+The instructions below make a small but significant change to the Chunk policy, but you can make other changes if you are feeling adventurous!
 
 You first need to download Maven, the toolchain used to compile Opencraft's source code. You can do so by executing the following commands:
 
