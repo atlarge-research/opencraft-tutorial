@@ -42,7 +42,7 @@ function downloadResource {
 NEXUS_DOWNLOAD_URL=https://opencraft-vm.labs.vu.nl/nexus/service/rest/v1/search/assets/download
 
 echo "Downloading Opencraft..."
-downloadResource "${NEXUS_DOWNLOAD_URL}?repository=opencraft-group&group=science.atlarge.opencraft&name=opencraft&sort=version&maven.extension=jar" opencraft.jar
+downloadResource "${NEXUS_DOWNLOAD_URL}?repository=opencraft-group&group=science.atlarge.opencraft&name=opencraft&sort=version&maven.extension=jar&version=1.1.4-20201109.150326-6" opencraft.jar
 downloadResource https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/main/configs/opencraft-dyconits-zero.yml ../policy-zero/resources/config/opencraft.yml
 
 echo "Downloading Yardstick..."
