@@ -199,8 +199,10 @@ cp ChunkPolicy.java NewChunkPolicy.java
          for (int x = centerX - radius; x <= centerX + radius; x++) {
              for (int z = centerZ - radius; z <= centerZ + radius; z++) {
                  Chunk chunk = world.getChunkAt(x, z);
--                chunks.add(new DyconitSubscribeCommand<>(sub.getKey(), sub.getCallback(), new Bounds(Integer.MAX_VALUE / 2, 2), chunkToName(chunk)));
-+                chunks.add(new DyconitSubscribeCommand<>(sub.getKey(), sub.getCallback(), new Bounds(2, Integer.MAX_VALUE / 2), chunkToName(chunk)));
+                 String dyconitName = chunkToName(chunk);
+-                chunks.add(new DyconitSubscribeCommand<>(sub.getKey(), sub.getCallback(), new Bounds(Integer.MAX_VALUE / 2, 2), dyconitName));
++                chunks.add(new DyconitSubscribeCommand<>(sub.getKey(), sub.getCallback(), new Bounds(2, Integer.MAX_VALUE / 2), dyconitName));
+                 playerSubscriptions.add(dyconitName);
              }
          }
          return chunks;
