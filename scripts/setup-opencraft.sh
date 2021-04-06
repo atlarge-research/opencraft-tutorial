@@ -18,7 +18,7 @@ source ~/.bashrc
 set -u
 
 echo "Creating directories for Opencraft experiments..."
-EXPERIMENT_PATH=/var/scratch/`whoami`/opencraft-tutorial/opencraft-experiments/2020/first-experiment
+EXPERIMENT_PATH=/var/scratch/`whoami`/opencraft-tutorial/opencraft-experiments/2021/first-experiment
 EXPERIMENT_RESOURCES_PATH=${EXPERIMENT_PATH}/resources
 mkdir -p $EXPERIMENT_RESOURCES_PATH
 EXPERIMENT_FIGURES_PATH=${EXPERIMENT_PATH}/figures
@@ -39,24 +39,24 @@ function downloadResource {
     cd - > /dev/null
 }
 
-NEXUS_DOWNLOAD_URL=https://opencraft-vm.labs.vu.nl/nexus/service/rest/v1/search/assets/download
-
+NEXUS_DOWNLOAD_URL=https://opencraft-vm.labs.vu.nl/nexus/repository/opencraft-snapshots
 echo "Downloading Opencraft..."
-downloadResource "${NEXUS_DOWNLOAD_URL}?repository=opencraft-group&group=science.atlarge.opencraft&name=opencraft&sort=version&maven.extension=jar&version=1.1.4-20201109.150326-6" opencraft.jar
-downloadResource https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/main/configs/opencraft-dyconits-zero.yml ../policy-zero/resources/config/opencraft.yml
+downloadResource "${NEXUS_DOWNLOAD_URL}/science/atlarge/opencraft/opencraft/1.1.4-serverless-terrain-generation-SNAPSHOT/opencraft-1.1.4-serverless-terrain-generation-20210406.142649-1.jar" opencraft.jar
+downloadResource https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/serverless-terrain-generation/configs/opencraft-local-generation.yml ../local-generation/resources/config/opencraft.yml
 
-echo "Downloading Yardstick..."
-downloadResource "${NEXUS_DOWNLOAD_URL}?repository=opencraft-releases&group=nl.tudelft&name=yardstick&sort=version&maven.extension=jar" yardstick.jar
-downloadResource https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/main/configs/yardstick.toml
+https://opencraft-vm.labs.vu.nl/nexus/repository/opencraft-snapshots/echo "Downloading Yardstick"
+downloadResource "${NEXUS_DOWNLOAD_URL}/nl/tudelft/yardstick/1.0.2-serverless-terrain-generation-SNAPSHOT/yardstick-1.0.2-serverless-terrain-generation-20210406.121248-1.jar" yardstick.jar
+downloadResource https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/serverless-terrain-generation/configs/yardstick.toml
 
 echo "Downloading Pecosa..."
 downloadResource https://raw.githubusercontent.com/jdonkervliet/pecosa/main/pecosa.py
 
 echo "Downloading experiment configuration..."
-downloadResource https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/main/configs/experiment-config.toml
+downloadResource https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/serverless-terrain-generation/configs/experiment-config.toml
 
+# todo: update link
 echo "Downloading plot script..."
-curl -sSL https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/main/scripts/plot-network.py -o ${EXPERIMENT_FIGURES_PATH}/plot-network.py
+curl -sSL https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/serverless-terrain-generation/scripts/plot-network.py -o ${EXPERIMENT_FIGURES_PATH}/plot-network.py
 
 echo "Opencraft setup complete."
 echo "Test that your setup was successful by running 'ocd --help'."
