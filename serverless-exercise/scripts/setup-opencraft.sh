@@ -54,7 +54,6 @@ downloadResource https://raw.githubusercontent.com/jdonkervliet/pecosa/main/peco
 echo "Downloading experiment configuration..."
 downloadResource https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/serverless-terrain-generation/configs/experiment-config.toml
 
-# todo: update link
 echo "Downloading plot script..."
 curl -sSL https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/serverless-terrain-generation/scripts/plot-network.py -o ${EXPERIMENT_FIGURES_PATH}/plot-network.py
 
