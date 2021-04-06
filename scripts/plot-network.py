@@ -1,39 +1,107 @@
 import pathlib
-
-import pandas as pandas
-import plotly.express as px
-from kaleido.scopes.plotly import PlotlyScope
-scope = PlotlyScope()
 import os
+import plotly.graph_objects as go
 
-template = "plotly_white"
 
 data = pathlib.Path(os.path.abspath(__file__)).parent.parent.joinpath("results").absolute()
 assert data.is_dir()
-data_file = data.joinpath("pecosa.log")
+data_file = data.joinpath("opencraft-events.log")
 assert data_file.is_file()
 output_dir = pathlib.Path(__file__).parent.absolute()
 assert output_dir.is_dir()
 
-df = pandas.read_csv(data_file, sep="\t")
-df["timestamp"] = df.groupby(["iteration", "config"])["timestamp"].transform(lambda x: x - x.min())
-df["net.packets_sent.ib0"] = df.groupby(["iteration", "config"])["net.packets_sent.ib0"].transform(
-    lambda x: x - x.min())
 
-# It takes 25 seconds to connect all players; cut.
-df["timestamp"] = df["timestamp"].transform(lambda x: x - 25000)
-df = df[df["timestamp"] >= 0]
+def parse(file_path):
+    # open and read file
+    with open(file_path, 'r') as f:
+        lines = f.read().strip().split('\n')[1:]
 
-fig = px.line(df, x="timestamp", y="net.packets_sent.ib0", color="config", line_group="iteration", template=template,
-              labels={
-                  "timestamp": "time (ms)", "net.packets_sent.ib0": "packets sent", "config": "Dyconit configuration"})
-with open(str(output_dir.joinpath("packets_over_time.pdf")), "wb") as f:
-    f.write(scope.transform(fig, format="pdf"))
+    # parse lines to dict
+    def parse_line(line: str):
+        split_line = line.split('\t')
+        return {
+            'time': int(split_line[0]),
+            'key': split_line[1],
+            'value': split_line[2],
+            'node': split_line[3],
+            'iteration': int(split_line[4]),
+            'config': split_line[5]
+        }
+
+    return [parse_line(line) for line in lines]
 
 
-df = df.groupby(["iteration", "config"], as_index=False).max()
-df["packets_per_second"] = df["net.packets_sent.ib0"] / (df["timestamp"] / 1000)
-fig = px.box(df, x="config", y="packets_per_second", template=template,
-             labels={"config": "Dyconit policy", "packets_per_second": "packets per second"})
-with open(str(output_dir.joinpath("packets_per_second_over_policy.pdf")), "wb") as f:
-    f.write(scope.transform(fig, format="pdf"))
+def filter_list(l, func):
+    return list(filter(func, l))
+
+
+def find(l, pred):
+    for i, x in enumerate(l):
+        if pred(x):
+            return i
+    return -1
+
+
+def filter_before_tick(entries):
+    filtered = []
+    configs = set(entry['config'] for entry in entries)
+    n_iter = max([entry['iteration'] for entry in entries]) + 1
+    for config in configs:
+        curr_entries = filter_list(entries, lambda x: x['config'] == config)
+        filtered_config = []
+        for iteration in range(n_iter):
+            # only allow logs after the first tick to prevent noisy population data
+            curr_iter_entries = filter_list(curr_entries, lambda x: x['iteration'] == iteration)
+            first_tick_time = curr_iter_entries[find(curr_iter_entries, lambda x: x['key'] == 'tick')]['time']
+            filtered_config.extend(filter_list(curr_iter_entries, lambda x: x['time'] > first_tick_time))
+
+        filtered.extend(filtered_config)
+
+    return filtered
+
+
+def plot(entries):
+    local_population_data = filter_list(entries, lambda x: x['key'].startswith('local_population'))
+    serverless_population_data = filter_list(entries, lambda x: x['key'].startswith('serverless_population'))
+
+    if local_population_data and serverless_population_data:
+        title = 'Local vs serverless population latency'
+    elif local_population_data:
+        title = 'Local population latency'
+    elif serverless_population_data:
+        title = 'Serverless population latency'
+    else:
+        title = ''
+
+    fig = go.Figure(
+        layout=go.Layout(
+            title=title,
+            xaxis=go.layout.XAxis(
+                title='Time (ms)'
+            )
+        )
+    )
+
+    def add_subplot(data, name):
+        fig.add_trace(
+            go.Box(
+                x=data,
+                name=name,
+                boxpoints=False
+            )
+        )
+
+    if local_population_data:
+        add_subplot([float(x['value']) for x in local_population_data], 'local')
+
+    if serverless_population_data:
+        add_subplot([float(x['value']) for x in serverless_population_data], 'serverless')
+
+    fig.write_image(str(output_dir.joinpath(f"{title}.pdf")))
+
+
+if __name__ == '__main__':
+    entries = parse('/home/tiberiu/Desktop/DS/experiments/experiment1/opencraft-events.log')
+    # entries = parse(data_file)
+    entries = filter_before_tick(entries)
+    plot(entries)

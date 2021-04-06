@@ -93,12 +93,12 @@ source ~/.bashrc # load the prun module
 ## Run Opencraft Experiment
 
 In this section, you will run your first experiment with Opencraft.
-The goal of the experiment is to find out the network usage of the game when connecting 50 players.
+The goal of the experiment is to find the latency of generating chunks using local generation.
 
 Run the following command to reserve 3 machines on the DAS-5 for 900 seconds (15 minutes):
 
 ```
-preserve -np 3 -t 900
+preserve -np 2 -t 900
 ```
 
 Now use `preserve -llist` to list all reservations. Yours will be near the bottom. Note the reservation number you have been assigned, shown in the first column.
@@ -107,7 +107,7 @@ The following command uses the OpenCraft Deployer to run your first experiment.
 It deploys Opencraft together with Yardstick, a benchmark that emulates players and monitors Opencraft's system behavior.
 
 ```
-ocd run /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/2020/first-experiment <reservation-number>
+ocd run /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/2021/first-experiment <reservation-number>
 ```
 
 The OpenCraft Deployer prints all commands executed to set up and perform the experiment to standard output. As you can see, most of it is moving configuration and log files around. No magic, but if these files are not in the right place, the system does not do what you want it to do.
@@ -117,14 +117,14 @@ The OpenCraft Deployer prints all commands executed to set up and perform the ex
 Now run the following commands to collect and plot the results from your experiment:
 
 ```
-ocd collect /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/2020/first-experiment
-python /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/2020/first-experiment/figures/plot-network.py
+ocd collect /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/2021/first-experiment
+python /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/2021/first-experiment/figures/plot-network.py
 ```
 
 Because your connection to the DAS-5 is text only, you will need to move the resulting figures from the DAS-5 to your local machine before you can view them. Run the following command from your local computer:
 
 ```
-scp -r das5:/var/scratch/<DAS5_USERNAME>/opencraft-tutorial/opencraft-experiments/2020/first-experiment/figures .
+scp -r das5:/var/scratch/<DAS5_USERNAME>/opencraft-tutorial/opencraft-experiments/2021/first-experiment/figures .
 ```
 
 There should now be a `figures` directory on your local machine which contains several figures. Open them to view your experiment results.
@@ -135,28 +135,25 @@ There should now be a `figures` directory on your local machine which contains s
 
 ## Modify Opencraft Configuration
 
-In this section, we run a second experiment while enabling the _Dyconit chunk policy_ in Opencraft.
-Dyconits are a technique to reduce network usage by allowing optimistically bounded inconsistency.
-The chunk policy makes players receive fewer updates for objects that are further away.
-Because these objects are further away, they player is less likely to focus on them, and less able to see small differences in their appearance or location.
-Hopefully, this will significantly reduce the network usage of the game.
+In this section, we run a second experiment while enabling the _serverless terrain generation_ in Opencraft.
+By generating chunk data on AWS Lambda we free resources on the server, which should improve user experience.
 
 Run the following commands to create a new configuration for your current experiment:
 
 ```
-cd /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/2020/first-experiment
-mkdir -p policy-chunk/resources/config # Create a dir for the new Opencraft config. Change 'policy-chunk' if needed.
-cp policy-zero/resources/config/opencraft.yml policy-chunk/resources/config
+cd /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/2021/first-experiment
+mkdir -p serverless-generation/resources/config # Create a dir for the new Opencraft config. Change 'serverless-generation' if needed.
+cp local-generation/resources/config/opencraft.yml serverless-generation/resources/config
 ```
 
-Now use a text editor (e.g., `vim` or `nano`) to modify Opencraft's configuration. Open `policy-chunk/resources/config/opencraft.yml`, and set `opencraft.messaging.policy` from `zero` to `chunk`.
+Now use a text editor (e.g., `vim` or `nano`) to modify Opencraft's configuration. Open `serverless-generation/resources/config/opencraft.yml`, and set `opencraft.chunk-population.policy` from `default` to `naive`.
 
 Redo the operations discussed in the [previous section](#run-opencraft-experiment) to run the experiment with the new configuration.
 
 #### Questions
 - Does changing the Opencraft policy significantly affect the behavior of the system? Why (not)?
 
-## Modify Opencraft Policy
+## Modify Opencraft Policy (TODO)
 
 In this section, we run a final experiment in which you create your own policy. Can we further reduce the network usage?
 Can we do so without creating inconsistencies large enough to be noticed by players?
@@ -238,7 +235,7 @@ Repeat the steps in the [previous section](#modify-opencraft-configuration) to a
 The new policy is not supported by the Opencraft version you used in our previous experiments. To use the new version of Opencraft, copy the new Opencraft jar to the new configuration's resources folder:
 
 ```
-cp ~/opencraft/target/opencraft*.jar /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/2020/first-experiment/policy-new/resources
+cp ~/opencraft/target/opencraft*.jar /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/2021/first-experiment/policy-new/resources
 ```
 
 Repeat the steps from the [first section](#run-opencraft-experiment) to repeat the experiment for the new configuration.
