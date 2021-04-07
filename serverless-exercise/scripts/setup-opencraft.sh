@@ -8,18 +8,18 @@ mkdir -p $BIN_DIR
 EXE="${BIN_DIR}/ocd"
 
 curl -sSL https://raw.githubusercontent.com/atlarge-research/opencraft-deploy-das5/develop/ocd.py -o ${BIN_DIR}/ocd.py
-if [ ! -f "$EXE.py" ]; then
+if [ ! -f "$EXE" ]; then
     ln -s ${EXE}.py $EXE
+
+    chmod +x $EXE
+
+    echo "module load prun" >> ~/.bashrc
+    echo "PATH=$EXE:\$PATH" >> ~/.bashrc
+
+    set +u
+    source ~/.bashrc
+    set -u
 fi
-
-chmod +x $EXE
-
-echo "module load prun" >> ~/.bashrc
-echo "PATH=$EXE:\$PATH" >> ~/.bashrc
-
-set +u
-source ~/.bashrc
-set -u
 
 echo "Creating directories for Opencraft experiments..."
 EXPERIMENT_PATH=/var/scratch/`whoami`/opencraft-tutorial/opencraft-experiments/2021/serverless-experiment
