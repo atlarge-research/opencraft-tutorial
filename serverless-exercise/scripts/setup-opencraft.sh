@@ -46,7 +46,7 @@ function downloadResource {
 NEXUS_DOWNLOAD_URL=https://opencraft-vm.labs.vu.nl/nexus/repository/opencraft-snapshots
 
 echo "Downloading Opencraft..."
-downloadResource "${NEXUS_DOWNLOAD_URL}/science/atlarge/opencraft/opencraft/1.1.4-serverless-terrain-generation-SNAPSHOT/opencraft-1.1.4-serverless-terrain-generation-20210406.142649-1.jar" opencraft.jar
+downloadResource "${NEXUS_DOWNLOAD_URL}/science/atlarge/opencraft/opencraft/1.1.4-serverless-terrain-generation-SNAPSHOT/opencraft-1.1.4-serverless-terrain-generation-20210407.183614-2.jar" opencraft.jar
 downloadResource https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/serverless-terrain-generation/serverless-exercise/configs/opencraft-local-generation.yml ../local-generation/resources/config/opencraft.yml
 
 echo "Downloading Yardstick"
