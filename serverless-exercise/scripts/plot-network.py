@@ -101,7 +101,6 @@ def plot(entries):
 
 
 if __name__ == '__main__':
-    entries = parse('/home/tiberiu/Desktop/DS/experiments/experiment1/opencraft-events.log')
-    # entries = parse(data_file)
+    entries = parse(data_file)
     entries = filter_before_tick(entries)
     plot(entries)
