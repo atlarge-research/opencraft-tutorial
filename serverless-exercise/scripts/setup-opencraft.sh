@@ -61,5 +61,12 @@ downloadResource https://raw.githubusercontent.com/atlarge-research/opencraft-tu
 echo "Downloading plot script..."
 curl -sSL https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/serverless-terrain-generation/serverless-exercise/scripts/plot-network.py -o ${EXPERIMENT_FIGURES_PATH}/plot-network.py
 
+echo "Setting up AWS Lambda credentials"
+echo "export LAMBDA_REGION=eu-central-1" >> ~/.bashrc
+echo "export LAMBDA_ACCESS_KEY=***REMOVED***" >> ~/.bashrc
+echo "export LAMBDA_SECRET_KEY=***REMOVED***" >> ~/.bashrc
+echo "export LAMBDA_FUNCTION=NaivePopulator" >> ~/.bashrc
+source ~/.bashrc
+
 echo "Opencraft setup complete."
 echo "Test that your setup was successful by running 'ocd --help'."
