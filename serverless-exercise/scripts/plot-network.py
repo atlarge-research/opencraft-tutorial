@@ -92,10 +92,16 @@ def plot(entries):
         )
 
     if local_population_data:
-        add_subplot([float(x['value']) for x in local_population_data], 'local')
+        n_iter = max([entry['iteration'] for entry in local_population_data]) + 1
+        for it in range(n_iter):
+            add_subplot([float(x['value']) for x in local_population_data if x['iteration'] == it], 'local; iteration' + str(it))
+        add_subplot([float(x['value']) for x in local_population_data], 'local; combined iterations')
 
     if serverless_population_data:
-        add_subplot([float(x['value']) for x in serverless_population_data], 'serverless')
+        n_iter = max([entry['iteration'] for entry in serverless_population_data]) + 1
+        for it in range(n_iter):
+            add_subplot([float(x['value']) for x in serverless_population_data if x['iteration'] == it], 'serverless; iteration' + str(it))
+        add_subplot([float(x['value']) for x in serverless_population_data], 'serverless; combined iterations')
 
     fig.write_image(str(output_dir.joinpath(f"{title.replace(' ', '_')}.pdf")))
 
