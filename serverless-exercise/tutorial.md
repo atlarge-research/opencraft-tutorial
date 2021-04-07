@@ -107,7 +107,7 @@ The following command uses the OpenCraft Deployer to run your first experiment.
 It deploys Opencraft together with Yardstick, a benchmark that emulates players and monitors Opencraft's system behavior.
 
 ```
-ocd run /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/2021/first-experiment <reservation-number>
+ocd run /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/2021/serverless-experiment <reservation-number>
 ```
 
 The OpenCraft Deployer prints all commands executed to set up and perform the experiment to standard output. As you can see, most of it is moving configuration and log files around. No magic, but if these files are not in the right place, the system does not do what you want it to do.
@@ -117,14 +117,14 @@ The OpenCraft Deployer prints all commands executed to set up and perform the ex
 Now run the following commands to collect and plot the results from your experiment:
 
 ```
-ocd collect /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/2021/first-experiment
-python /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/2021/first-experiment/figures/plot-network.py
+ocd collect /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/2021/serverless-experiment
+python /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/2021/serverless-experiment/figures/plot-network.py
 ```
 
 Because your connection to the DAS-5 is text only, you will need to move the resulting figures from the DAS-5 to your local machine before you can view them. Run the following command from your local computer:
 
 ```
-scp -r das5:/var/scratch/<DAS5_USERNAME>/opencraft-tutorial/opencraft-experiments/2021/first-experiment/figures .
+scp -r das5:/var/scratch/<DAS5_USERNAME>/opencraft-tutorial/opencraft-experiments/2021/serverless-experiment/figures .
 ```
 
 There should now be a `figures` directory on your local machine which contains several figures. Open them to view your experiment results.
@@ -141,7 +141,7 @@ By generating chunk data on AWS Lambda we free resources on the server, which sh
 Run the following commands to create a new configuration for your current experiment:
 
 ```
-cd /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/2021/first-experiment
+cd /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/2021/serverless-experiment
 mkdir -p serverless-generation/resources/config # Create a dir for the new Opencraft config. Change 'serverless-generation' if needed.
 cp local-generation/resources/config/opencraft.yml serverless-generation/resources/config
 ```

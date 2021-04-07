@@ -5,9 +5,13 @@ set -euo pipefail
 echo "Installing OpenCraft Deployer (ocd)..."
 BIN_DIR="/home/`whoami`/.local/bin"
 mkdir -p $BIN_DIR
-curl -sSL https://raw.githubusercontent.com/atlarge-research/opencraft-deploy-das5/develop/ocd.py -o ${BIN_DIR}/ocd.py
 EXE="${BIN_DIR}/ocd"
-ln -s ${EXE}.py $EXE
+
+curl -sSL https://raw.githubusercontent.com/atlarge-research/opencraft-deploy-das5/develop/ocd.py -o ${BIN_DIR}/ocd.py
+if [ ! -f "$EXE.py" ]; then
+    ln -s ${EXE}.py $EXE
+fi
+
 chmod +x $EXE
 
 echo "module load prun" >> ~/.bashrc
@@ -18,7 +22,7 @@ source ~/.bashrc
 set -u
 
 echo "Creating directories for Opencraft experiments..."
-EXPERIMENT_PATH=/var/scratch/`whoami`/opencraft-tutorial/opencraft-experiments/2021/first-experiment
+EXPERIMENT_PATH=/var/scratch/`whoami`/opencraft-tutorial/opencraft-experiments/2021/serverless-experiment
 EXPERIMENT_RESOURCES_PATH=${EXPERIMENT_PATH}/resources
 mkdir -p $EXPERIMENT_RESOURCES_PATH
 EXPERIMENT_FIGURES_PATH=${EXPERIMENT_PATH}/figures
@@ -39,6 +43,7 @@ function downloadResource {
     cd - > /dev/null
 }
 
+#todo: update links
 NEXUS_DOWNLOAD_URL=https://opencraft-vm.labs.vu.nl/nexus/repository/opencraft-snapshots
 echo "Downloading Opencraft..."
 downloadResource "${NEXUS_DOWNLOAD_URL}/science/atlarge/opencraft/opencraft/1.1.4-serverless-terrain-generation-SNAPSHOT/opencraft-1.1.4-serverless-terrain-generation-20210406.142649-1.jar" opencraft.jar
