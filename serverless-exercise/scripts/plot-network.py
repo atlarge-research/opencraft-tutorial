@@ -97,7 +97,7 @@ def plot(entries):
     if serverless_population_data:
         add_subplot([float(x['value']) for x in serverless_population_data], 'serverless')
 
-    fig.write_image(str(output_dir.joinpath(f"{title}.pdf")))
+    fig.write_image(str(output_dir.joinpath(f"{title.replace(' ', '_')}.pdf")))
 
 
 if __name__ == '__main__':
