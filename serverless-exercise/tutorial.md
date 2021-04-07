@@ -82,7 +82,7 @@ You should now see `(opencraft)` prepended to your terminal prompt. You can also
 To dowload and configure the Opencraft tools, run the following command:
 
 ```
-curl -sSL https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/main/scripts/setup-opencraft.sh | bash
+curl -sSL https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/serverless-terrain-generation/serverless-exercise/scripts/setup-opencraft.sh | bash
 source ~/.bashrc # load the prun module
 ```
 
