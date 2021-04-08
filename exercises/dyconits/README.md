@@ -80,7 +80,7 @@ cp policy-zero/resources/config/opencraft.yml policy-chunk/resources/config
 
 Now use a text editor (e.g., `vim` or `nano`) to modify Opencraft's configuration. Open `policy-chunk/resources/config/opencraft.yml`, and set `opencraft.messaging.policy` from `zero` to `chunk`.
 
-Redo the operations discussed in the [previous section](#run-opencraft-experiment) to run the experiment with the new configuration.
+Redo the operations discussed in the [previous section](#running-the-baseline-experiment) to run the experiment with the new configuration.
 The Opencraft Deployer will automatically detect that you already ran the baseline experiment, and skip it.
 
 ### Questions
@@ -173,7 +173,7 @@ The new policy is not supported by the Opencraft version you used in our previou
 cp ~/opencraft/target/opencraft*.jar /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/dyconit-experiment/policy-new/resources
 ```
 
-Repeat the steps from the [first section](#run-opencraft-experiment) to repeat the experiment for the new configuration.
+Repeat the steps from the [first section](#running-the-baseline-experiment) to repeat the experiment for the new configuration.
 
 ### Questions
 
