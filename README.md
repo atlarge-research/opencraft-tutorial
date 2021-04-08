@@ -97,22 +97,7 @@ You can access the exercises here:
 - [Dyconit Exercise](./exercises/dyconits/README.md)
 - [Terrain Generation Exercise](./exercises/terrain-generation/README.md)
 
-
-## BONUS: Connect to Your Own Opencraft Game
-
-While debugging your Opencraft experiments, it can be useful to see what the game and its emulated players are doing. Because the DAS-5 worker nodes are not accessible from the Internet, you cannot *directly* connect to the Opencraft server with our local Minecraft client.
-However, you can work around this by chaining two SSH tunnels.
-
-Start by running Opencraft on a DAS-5 worker node by starting an experiment or by launching the game manually. Next, use `preserve -llist` to identify which machine (e.g., node0XY) is running the Opencraft server.<sup id="a4">[4](#fn4)</sup> Now create two SSH tunnels from your local machine to the worker node that is running the Opencraft server, replacing `node0XY` with the correct hostname:
-
-```
-ssh -L 25565:node0XY:25565 das5
-```
-*Working out how this command works exactly is left as an exercise for the reader.*
-
-Finally, start your Minecraft 1.12.2 client on your local machine and connect to the server at `localhost:25565`. You should now be connected to the Opencraft server running on the DAS-5.
-
-## Wrapping Up
+# Wrapping Up
 
 You have reached the end of the Opencraft tutorial. At this point, it is worth reminding yourself of what you have learned:
 
@@ -132,6 +117,22 @@ Thank you for completing this tutorial. We would appreciate it if you could shar
 
 ---
 
+## BONUS: Connect to Your Own Opencraft Game
+
+While debugging your Opencraft experiments, it can be useful to see what the game and its emulated players are doing. Because the DAS-5 worker nodes are not accessible from the Internet, you cannot *directly* connect to the Opencraft server with our local Minecraft client.
+However, you can work around this by chaining two SSH tunnels.
+
+Start by running Opencraft on a DAS-5 worker node by starting an experiment or by launching the game manually. Next, use `preserve -llist` to identify which machine (e.g., node0XY) is running the Opencraft server.<sup id="a4">[4](#fn4)</sup> Now create two SSH tunnels from your local machine to the worker node that is running the Opencraft server, replacing `node0XY` with the correct hostname:
+
+```
+ssh -L 25565:node0XY:25565 das5
+```
+*Working out how this command works exactly is left as an exercise for the reader.*
+
+Finally, start your Minecraft 1.12.2 client on your local machine and connect to the server at `localhost:25565`. You should now be connected to the Opencraft server running on the DAS-5.
+
+---
+
 <a name="fn1">1.</a> <https://news.xbox.com/en-us/2020/05/18/minecraft-connecting-more-players-than-ever-before/> [↩](#a1)
 
 <a name="fn2">2.</a> Ibid. [↩](#a2)
@@ -139,3 +140,4 @@ Thank you for completing this tutorial. We would appreciate it if you could shar
 <a name="fn3">3.</a> van der Sar, et al. Yardstick: A Benchmark for Minecraft-like Services. ICPE 2019 [↩](#a3)
 
 <a name="fn4">4.</a> When running an Opencraft experiment with `ocd`, the Opencraft server runs on the first node in your list of reserved nodes. [↩](#a4)
+
