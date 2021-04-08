@@ -84,7 +84,7 @@ cp local-generation/resources/config/opencraft.yml serverless-generation/resourc
 
 Now use a text editor (e.g., `vim` or `nano`) to modify Opencraft's configuration. Open `serverless-generation/resources/config/opencraft.yml`, and set `opencraft.chunk-population.policy` from `default` to `naive`.
 
-Redo the operations discussed in the [previous section](#run-opencraft-experiment) to run the experiment with the new configuration.
+Redo the operations discussed in the [previous section](#running-the-baseline-experiment) to run the experiment with the new configuration.
 
 ### Questions
 - Does changing the Opencraft policy significantly affect the behavior of the system? Why (not)?
