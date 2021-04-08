@@ -34,6 +34,7 @@ This experiment will form the _baseline_: the default behavior of the system (i.
 ```
 ocd run /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/dyconit-experiment <reservation-number>
 ```
+_Expected runtime: 5 minutes_
 
 The OpenCraft Deployer moves the executables and configuration files downloaded during the setup to temporary locations on the nodes you just reserved, starts the experiment, and collects the results when the experiment completes.
 The OpenCraft Deployer prints all commands it executes to standard output.

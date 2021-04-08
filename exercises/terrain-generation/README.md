@@ -45,6 +45,7 @@ It deploys Opencraft together with Yardstick, a benchmark that emulates players 
 ```
 ocd run /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/terrain-generation-experiment <reservation-number>
 ```
+_Expected runtime: 10 minutes_
 
 The OpenCraft Deployer prints all commands executed to set up and perform the experiment to standard output. As you can see, most of it is moving configuration and log files around. No magic, but if these files are not in the right place, the system does not do what you want it to do.
 
