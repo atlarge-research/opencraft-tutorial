@@ -1,7 +1,24 @@
-## Run Opencraft Experiment
+# Dyconit Exercise
 
-In this section, you will run your first experiment with Opencraft.
-The goal of the experiment is to find out the network usage of the game when connecting 50 players.
+Welcome to the Dyconit exercise!
+In this exercise, you will evaluate the effect of bounded inconsistency on Opencraft's bandwidth usage.
+During this experiment, we will connect 50 players, and let these players move around on a flat plane.
+
+## Experiment Setup
+
+Before we can run our experiment, we need to do the necessary setup.
+During setup, we make sure that all necessary resources are in the correct location,
+and that all systems are correctly configured.
+In this exercise, you can complete the experiment setup by running a single script:
+
+```
+curl -sSL https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/main/exercises/dyconits/scripts/setup-experiment.sh | bash
+```
+
+That's it!
+You just downloaded Opencraft (the _System Under Test_), Yardstick (the benchmark generating the _workload_), a monitoring script (to collect the right _metrics_ during the experiment), and several configuration files. We can now proceed with running the experiment.
+
+## Running the Baseline Experiment
 
 Run the following command to reserve 3 machines on the DAS-5 for 900 seconds (15 minutes):
 
@@ -12,47 +29,51 @@ preserve -np 3 -t 900
 Now use `preserve -llist` to list all reservations. Yours will be near the bottom. Note the reservation number you have been assigned, shown in the first column.
 
 The following command uses the OpenCraft Deployer to run your first experiment.
-It deploys Opencraft together with Yardstick, a benchmark that emulates players and monitors Opencraft's system behavior.
+This experiment will form the _baseline_: the default behavior of the system (i.e., without using Dyconits), to which we can compare later results.
 
 ```
-ocd run /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/2020/first-experiment <reservation-number>
+ocd run /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/dyconit-experiment <reservation-number>
 ```
 
-The OpenCraft Deployer prints all commands executed to set up and perform the experiment to standard output. As you can see, most of it is moving configuration and log files around. No magic, but if these files are not in the right place, the system does not do what you want it to do.
+The OpenCraft Deployer moves the executables and configuration files downloaded during the setup to temporary locations on the nodes you just reserved, starts the experiment, and collects the results when the experiment completes.
+The OpenCraft Deployer prints all commands it executes to standard output.
+Now we simply wait for the experiment to complete.
 
 > PRO TIP: Running your experiments in `screen` allows you to stop your SSH connection without interrupting your experiments. This is especially useful if your experiments take a long time to run, or your network connection is unreliable.
 
-Now run the following commands to collect and plot the results from your experiment:
+After the experiment completes, we will manually run a script to plot the results:
 
 ```
-ocd collect /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/2020/first-experiment
-python /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/2020/first-experiment/figures/plot-network.py
+ocd collect /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/dyconit-experiment
+python /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/dyconit-experiment/figures/plot-network.py
 ```
 
 Because your connection to the DAS-5 is text only, you will need to move the resulting figures from the DAS-5 to your local machine before you can view them. Run the following command from your local computer:
 
 ```
-scp -r das5:/var/scratch/<DAS5_USERNAME>/opencraft-tutorial/opencraft-experiments/2020/first-experiment/figures .
+scp -r das5:/var/scratch/<DAS5_USERNAME>/opencraft-tutorial/opencraft-experiments/dyconit-experiment/figures .
 ```
 
 There should now be a `figures` directory on your local machine which contains several figures. Open them to view your experiment results.
 
-#### Questions
+### Questions
 
+- What does the result plot show? Is the result what you expect? Why (not)?
 - The experiment is configured to run the experiment once. (See `experiment-config.toml`.) What can go wrong when running an experiment only once? How can you address this risk?
 
 ## Modify Opencraft Configuration
 
 In this section, we run a second experiment while enabling the _Dyconit chunk policy_ in Opencraft.
 Dyconits are a technique to reduce network usage by allowing optimistically bounded inconsistency.
-The chunk policy makes players receive fewer updates for objects that are further away.
-Because these objects are further away, they player is less likely to focus on them, and less able to see small differences in their appearance or location.
-Hopefully, this will significantly reduce the network usage of the game.
+The chunk policy effectively implements Area of Interest (AoI), letting players receive fewer updates for objects that are further away.
+The intuition behind AoI is that objects that are further away are less likely to draw a player's attention, and cannot be observed in as much details as objects that are located nearby.
+Therefore, players are less able to see small differences in the appearance or location of these objects.
+Reducing the update frequency for these objects will, hopefully, significantly reduce the network usage of the game.
 
 Run the following commands to create a new configuration for your current experiment:
 
 ```
-cd /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/2020/first-experiment
+cd /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/dyconit-experiment
 mkdir -p policy-chunk/resources/config # Create a dir for the new Opencraft config. Change 'policy-chunk' if needed.
 cp policy-zero/resources/config/opencraft.yml policy-chunk/resources/config
 ```
@@ -60,8 +81,11 @@ cp policy-zero/resources/config/opencraft.yml policy-chunk/resources/config
 Now use a text editor (e.g., `vim` or `nano`) to modify Opencraft's configuration. Open `policy-chunk/resources/config/opencraft.yml`, and set `opencraft.messaging.policy` from `zero` to `chunk`.
 
 Redo the operations discussed in the [previous section](#run-opencraft-experiment) to run the experiment with the new configuration.
+The Opencraft Deployer will automatically detect that you already ran the baseline experiment, and skip it.
 
-#### Questions
+### Questions
+
+- What system behavior is controlled by the configuration option you modified?
 - Does changing the Opencraft policy significantly affect the behavior of the system? Why (not)?
 
 ## Modify Opencraft Policy
@@ -146,7 +170,7 @@ Repeat the steps in the [previous section](#modify-opencraft-configuration) to a
 The new policy is not supported by the Opencraft version you used in our previous experiments. To use the new version of Opencraft, copy the new Opencraft jar to the new configuration's resources folder:
 
 ```
-cp ~/opencraft/target/opencraft*.jar /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/2020/first-experiment/policy-new/resources
+cp ~/opencraft/target/opencraft*.jar /var/scratch/$(whoami)/opencraft-tutorial/opencraft-experiments/dyconit-experiment/policy-new/resources
 ```
 
 Repeat the steps from the [first section](#run-opencraft-experiment) to repeat the experiment for the new configuration.
