@@ -104,6 +104,7 @@ echo PATH="/home/$(whoami)/apache-maven-3.6.3/bin:\$PATH" >> ~/.bashrc
 source ~/.bashrc
 mvn --version # Check that mvn command was added to PATH
 rm apache-maven-3.6.3-bin.zip
+cp -r /var/scratch/jdonkerv/.m2 ~ # Copy maven dependencies.
 ```
 
 Now you can get the Opencraft source code by running `git clone https://github.com/atlarge-research/opencraft-opencraft.git opencraft`. This will create a directory called `opencraft` containing the Opencraft source code.
