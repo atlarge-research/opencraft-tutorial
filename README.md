@@ -61,6 +61,7 @@ Download the Miniconda installer for Linux:
 ```
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 chmod +x ./Miniconda3-latest-Linux-x86_64.sh
+./Miniconda3-latest-Linux-x86_64.sh
 ```
 
 > PRO TIP: You can copy and paste the commands found in this tutorial directly into your terminal. No need to type everything by hand.
