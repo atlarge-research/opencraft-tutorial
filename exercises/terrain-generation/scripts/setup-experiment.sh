@@ -54,10 +54,10 @@ curl -sSL ${SCRIPTS_URL}/plot-network.py -o ${EXPERIMENT_FIGURES_PATH}/plot-netw
 
 echo "Setting up AWS Lambda credentials"
 echo "export LAMBDA_REGION=eu-central-1" >> ~/.bashrc
-echo "export LAMBDA_ACCESS_KEY=***REMOVED***" >> ~/.bashrc
-echo "export LAMBDA_SECRET_KEY=***REMOVED***" >> ~/.bashrc
 echo "export LAMBDA_FUNCTION=NaivePopulator" >> ~/.bashrc
+echo "export LAMBDA_ACCESS_KEY=SET KEY HERE" >> ~/.bashrc
+echo "export LAMBDA_SECRET_KEY=SET KEY HERE" >> ~/.bashrc
 
 echo "Terrain generation experiment setup complete."
-echo "Run 'source ~/.bashrc' before continuing."
+echo "Please set the AWS Lambda Access Key and Secret Key in .bashrc, and run 'source ~/.bashrc' before continuing."
 
