@@ -52,7 +52,7 @@ downloadResource ${CONFIG_URL}/experiment-config.toml
 echo "Downloading plot script..."
 curl -sSL ${SCRIPTS_URL}/plot-network.py -o ${EXPERIMENT_FIGURES_PATH}/plot-network.py
 
-echo "Setting up AWS Lambda credentials"
+echo "Setting up AWS Lambda configuration"
 echo "export LAMBDA_REGION=eu-central-1" >> ~/.bashrc
 echo "export LAMBDA_FUNCTION=NaivePopulator" >> ~/.bashrc
 echo "export LAMBDA_ACCESS_KEY=SET KEY HERE" >> ~/.bashrc
