@@ -175,4 +175,11 @@ cp ~/opencraft/target/opencraft*.jar /var/scratch/$(whoami)/opencraft-tutorial/o
 
 Repeat the steps from the [first section](#run-opencraft-experiment) to repeat the experiment for the new configuration.
 
+### Questions
 
+- How did your custom policy perform compared to the others? Did you expect this behavior?
+
+## Done!
+
+You successfully completed the dyconit assignment!
+To continue with the Opencraft tutorial, go back to the [main page](../../README.md#exercises).

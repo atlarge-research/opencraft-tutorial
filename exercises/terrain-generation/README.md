@@ -78,3 +78,8 @@ Redo the operations discussed in the [previous section](#run-opencraft-experimen
 
 ### Questions
 - Does changing the Opencraft policy significantly affect the behavior of the system? Why (not)?
+
+## Done!
+
+You successfully completed the terrain generation assignment!
+To continue with the Opencraft tutorial, go back to the [main page](../../README.md#exercises).
