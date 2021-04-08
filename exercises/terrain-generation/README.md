@@ -13,7 +13,17 @@ In this exercise, you can complete the experiment setup by running a single scri
 
 ```
 curl -sSL https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/main/exercises/terrain-generation/scripts/setup-experiment.sh | bash
-source ~/.bashrc # load the prun module
+```
+
+Open the file `~/.bashrc` and fill in your AWS API keys.
+If you are completing this tutorial as part of a live session,
+please ask the teacher for these keys.
+If not, you can create and use keys associated with your own AWS account.
+
+Now run the following command to load the necessary modules and environment variables:
+
+```
+source ~/.bashrc
 ```
 
 ## Running the Baseline Experiment
