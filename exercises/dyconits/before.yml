@@ -7,7 +7,7 @@
         state: directory
     - name: Checkout Opencraft repo
       git:
-        repo: git@github.com:atlarge-research/opencraft.git
+        repo: https://github.com/atlarge-research/opencraft.git
         dest: cache/opencraft
         version: 13f9ffa4d50df2268998b1b5ec1a2c236eac09dd
       register: git_opencraft
@@ -27,7 +27,7 @@
       when: git_opencraft.changed
     - name: Checkout Yardstick
       git:
-        repo: git@github.com:atlarge-research/yardstick.git
+        repo: https://github.com/atlarge-research/yardstick.git
         dest: cache/yardstick
         version: 4fbecae6299779d90d27f3135f98310b34708f76
       register: git_yardstick
@@ -39,5 +39,5 @@
       when: git_yardstick.changed
     - name: Checkout Pecosa
       git:
-        repo: git@github.com:jdonkervliet/pecosa.git
+        repo: https://github.com/jdonkervliet/pecosa.git
         dest: cache/pecosa

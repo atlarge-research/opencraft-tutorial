@@ -16,19 +16,16 @@ if ! which conda; then
         wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
         bash ~/miniconda3/miniconda.sh -b -u -p "/var/scratch/$(whoami)/miniconda3"
         rm -rf ~/miniconda3/miniconda.sh
+        set +u
+        source "/var/scratch/$(whoami)/miniconda3/bin/activate"
+        conda init bash
+        set -u
         ;;
     *)
         exit
         ;;
     esac
 fi
-
-set +u
-set +x
-"/var/scratch/$(whoami)/miniconda3/bin/conda" init bash
-source "/home/$(whoami)/.bashrc"
-set -x
-set -u
 
 env_name="$(head -n 1 environment.yml | cut -d':' -f 2 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
 
