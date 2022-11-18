@@ -9,7 +9,7 @@ if ! (git status && [[ -z "$(git status --porcelain)" ]]); then
 fi
 
 if ! which conda; then
-    read -r -p "Conda not found. About to install conda in ~/miniconda3. Do you want to continue? [yn] " yn
+    read -r -p "Conda not found. About to install conda in /var/scratch/$(whoami)/miniconda3. Do you want to continue? [yn] " yn
     case $yn in
     [Yy])
         mkdir -p ~/miniconda3
@@ -25,7 +25,7 @@ fi
 
 set +u
 set +x
-conda init bash
+"/var/scratch/$(whoami)/miniconda3/bin/conda" init bash
 source "/home/$(whoami)/.bashrc"
 set -x
 set -u
