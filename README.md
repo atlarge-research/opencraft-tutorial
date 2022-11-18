@@ -49,7 +49,7 @@ SSH will first request your VUnet password, and then your DAS-5 password.
 
 # Exercises
 
-In this tutorial you evaluate novel game-scalability methods by running experiments with Opencraft on the DAS5, how Dyconits improve the network bandwidth usage of the game.
+In this tutorial you evaluate novel game-scalability methods by running experiments with Opencraft on the DAS5, and investigate how Dyconits improve the network bandwidth usage of the game.
 
 You can access the exercise here:
 
@@ -78,7 +78,7 @@ Thank you for completing this tutorial. We would appreciate it if you could shar
 ## BONUS: Connect to Your Own Opencraft Game
 
 While debugging your Opencraft experiments, it can be useful to see what the game and its emulated players are doing. Because the DAS-5 worker nodes are not accessible from the Internet, you cannot *directly* connect to the Opencraft server with our local Minecraft client.
-However, you can work around this by chaining two SSH tunnels.
+However, you can easily work around this by creating an SSH tunnel.
 
 Start by running Opencraft on a DAS-5 worker node by starting an experiment or by launching the game manually. Next, use `preserve -llist` to identify which machine (e.g., node0XY) is running the Opencraft server.<sup id="a4">[4](#fn4)</sup> Now create two SSH tunnels from your local machine to the worker node that is running the Opencraft server, replacing `node0XY` with the correct hostname:
 
@@ -97,5 +97,5 @@ Finally, start your Minecraft 1.12.2 client on your local machine and connect to
 
 <a name="fn3">3.</a> van der Sar, et al. Yardstick: A Benchmark for Minecraft-like Services. ICPE 2019 [↩](#a3)
 
-<a name="fn4">4.</a> When running an Opencraft experiment with `ocd`, the Opencraft server runs on the first node in your list of reserved nodes. [↩](#a4)
+<a name="fn4">4.</a> When you run an experiment, the hostname of the node running Opencraft will become visible in the output from Ansible. [↩](#a4)
 
