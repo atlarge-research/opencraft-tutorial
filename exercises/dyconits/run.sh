@@ -16,7 +16,6 @@ if ! which conda; then
         wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
         bash ~/miniconda3/miniconda.sh -b -u -p "/var/scratch/$(whoami)/miniconda3"
         rm -rf ~/miniconda3/miniconda.sh
-        "/var/scratch/$(whoami)/miniconda3" init bash
         ;;
     *)
         exit

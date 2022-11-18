@@ -47,56 +47,6 @@ SSH will first request your VUnet password, and then your DAS-5 password.
 
 > PRO TIP: You do not need the `ProxyJump` command while working from the VU campus network.
 
-## Collecting Your Tools
-
-Opencraft consists of a collection of tools. The setup consists of two steps: creating a Python environment with the necessary packages, and downloading the Opencraft-specific tools. From this point onwards, all commands should be executed on the DAS-5, unless otherwise specified.
-
-### Python
-
-Use Miniconda to create a Python environment with the necessary packages.
-Miniconda simplifies the process of creating portable Python environments with specfic Python runtime and package versions.
-
-Download the Miniconda installer for Linux:
-
-```
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-chmod +x ./Miniconda3-latest-Linux-x86_64.sh
-```
-
-> PRO TIP: You can copy and paste the commands found in this tutorial directly into your terminal. No need to type everything by hand.
-
-The Miniconda installer will ask where Miniconda should be installed. **Make sure to install Miniconda in `/var/scratch/<USERNAME>/miniconda3`**;
-the home folder does not have sufficient space for large python environments. Answer "yes" when asked if the installer should run `conda init`.
-You can start the installer by running:
-
-```bash
-./Miniconda3-latest-Linux-x86_64.sh
-```
-
-Now create a new Python environment that contains the exact Python runtime and package versions needed to run the Opencraft tools.
-
-```
-source ~/.bashrc
-wget https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/main/conda/spec-file.txt
-conda create --name opencraft --file spec-file.txt
-echo "conda activate opencraft" >> ~/.bashrc
-source ~/.bashrc
-rm spec-file.txt
-rm Miniconda3-latest-Linux-x86_64.sh
-```
-You should now see `(opencraft)` prepended to your terminal prompt. You can also verify the correct Python runtime is used by running `which python`.
-
-### Opencraft Tools
-
-To dowload and configure the Opencraft tools, run the following command:
-
-```
-curl -sSL https://raw.githubusercontent.com/atlarge-research/opencraft-tutorial/main/scripts/setup-opencraft.sh | bash
-source ~/.bashrc # load the prun module
-```
-
-> PRO TIP: Never execute code straight from the Internet. :)
-
 # Exercises
 
 In this tutorial you evaluate novel game-scalability methods by running experiments with Opencraft on the DAS5, how Dyconits improve the network bandwidth usage of the game.
