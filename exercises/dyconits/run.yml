@@ -31,8 +31,8 @@
         source $(dirname $(dirname $(which conda)))/etc/profile.d/conda.sh
         conda activate scratch
         python {{ playbook_dir }}/cache/pecosa/pecosa.py {{ pecosa_log_file.path }} {{ server_pid }}
-      # async: "{{ experiment_duration_s }}"
-      # poll: 0
+      async: "{{ experiment_duration_s }}"
+      poll: 0
     - name: Sleep 1
       pause:
         seconds: 1
