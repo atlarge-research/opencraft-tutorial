@@ -1,5 +1,10 @@
 # Terrain Generation Exercise
 
+> **THIS ASSIGNMENT IS DEPRECATED!**
+>
+> This assignment uses deployment scripts that are no longer supported.
+> If you would like to get to know Opencraft, please check the [Dyconit exercise](../dyconits/README.md). 
+
 Welcome to the terrain generation exercise!
 In this exercise, you will evaluate the effect of generating terrain on AWS Lambda, a commercially available serverless platform.
 <!-- TODO What is the workload? During this experiment, we will connect 50 players, and let these players move around on a flat plane. -->
