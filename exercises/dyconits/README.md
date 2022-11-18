@@ -129,8 +129,8 @@ If `mvn` is not available on your path, you can use the copy of Maven available 
 Compilation might take a while...
 Upon successful compilation, a freshly compiled version of Opencraft should be waiting in the `target` directory.
 
-The experiment runner tries to reset the Opencraft code to the version specified in `before.yml`.
-Edit this file to make sure it the version of Opencraft you compiled!
+**Warning!** The experiment runner tries to reset the Opencraft code to the version specified in the `before.yml` playbook.
+Edit this file to make sure it uses the version of Opencraft you compiled!
 
 Finally, add `NewChunkPolicy` to the policy values in `experiment.yml`.
 
