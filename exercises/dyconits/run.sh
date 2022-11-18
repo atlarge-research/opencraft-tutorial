@@ -23,6 +23,13 @@ if ! which conda; then
     esac
 fi
 
+set +u
+set +x
+conda init bash
+source "/home/$(whoami)/.bashrc"
+set -x
+set -u
+
 env_name="$(head -n 1 environment.yml | cut -d':' -f 2 | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
 
 if ! conda env list | grep -q -E "^$env_name\s+"; then
