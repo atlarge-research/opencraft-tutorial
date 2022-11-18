@@ -30,8 +30,8 @@
       shell: |
         conda activate scratch
         python {{ playbook_dir }}/cache/pecosa/pecosa.py {{ pecosa_log_file.path }} {{ server_pid }}
-      async: "{{ experiment_duration_s }}"
-      poll: 0
+      # async: "{{ experiment_duration_s }}"
+      # poll: 0
     - name: Sleep 1
       pause:
         seconds: 1
@@ -53,13 +53,6 @@
         seconds: 30
     - set_fact:
         server_ib_ip: "{{ '10.149.0.' ~ (groups['server'][0][-2:] | int) }}"
-    # - name: Run Spawner
-    #   shell: |
-    #     cd {{ base_path }}/spawner
-    #     # mono {{ base_path }}/spawner/MinecraftClient.exe javierron90 - {{ server_ib_ip }}
-    #     mono /var/scratch/javierro/opencraft-simconst-1/serverless-constructs/resources/MinecraftClient.exe javierron90 - {{ server_ib_ip }}
-    #   async: "{{ experiment_duration_s }}"
-    #   poll: 10
     - name: Run Yardstick
       shell: |
         cd {{ yardstick_jar_copy.dest | dirname }}
