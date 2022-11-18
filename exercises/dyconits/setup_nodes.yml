@@ -13,7 +13,7 @@
 - name: Wait until nodes are ready
   shell: |
     module load prun
-    preserve -llist | grep -E \"^{{reservation_number}}\" | cut -d$'\t' -f 7
+    preserve -llist | grep -E "^{{ reservation_number }}" | cut -d$'\t' -f 7
   register: output
   until: output.stdout == "R"
   retries: 120
@@ -21,7 +21,7 @@
 - name: Get node hostnames
   shell: |
     module load prun
-    preserve -llist | grep -E \"^{{reservation_number}}\" | cut -d$'\t' -f 9
+    preserve -llist | grep -E "^{{ reservation_number }}" | cut -d$'\t' -f 9
   register: output
 - debug:
     var: output
