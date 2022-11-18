@@ -6,7 +6,7 @@
   register: opencraft_tmp_dir
 - name: Copy Opencraft Jar
   copy:
-    src: "{{ playbook_dir }}/cache/opencraft/build/libs/opencraft.jar"
+    src: "{{ playbook_dir }}/cache/opencraft/target/opencraft.jar"
     dest: "{{ opencraft_tmp_dir.path }}"
     remote_src: True
   register: opencraft_jar_copy
