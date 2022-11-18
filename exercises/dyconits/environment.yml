@@ -47,6 +47,7 @@ dependencies:
   - paramiko=2.12.0=pyhd8ed1ab_0
   - pbr=5.11.0=pyhd8ed1ab_0
   - pip=22.3.1=pyhd8ed1ab_0
+  - psutil=5.9.4=py311hd4cff14_0
   - pycparser=2.21=pyhd8ed1ab_0
   - pynacl=1.5.0=py311hd4cff14_2
   - pyopenssl=22.1.0=pyhd8ed1ab_0
