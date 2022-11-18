@@ -14,6 +14,17 @@
         hash: "{{ gitRevParse.stdout }}"
     - set_fact:
         output_path: "{{ playbook_dir }}/output/{{ hash }}/{{ _iteration }}/{{ _index }}"
+    
+    - name: Check existance of output folder
+      stat:
+        path: "{{ output_path }}"
+      register: stat_output_path
+    - block:
+        - name: "end play if experiment already ran"
+          debug:
+            msg: "experiment already ran, exiting"
+        - meta: end_play
+      when: stat_output_path.stat.exists == "no"
     - name: Ensure output directory exists
       file:
         path: "{{ output_path }}"
