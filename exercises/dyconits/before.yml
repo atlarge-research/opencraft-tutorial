@@ -1,0 +1,43 @@
+---
+- hosts: localhost
+  pre_tasks:
+    - name: Check cache directory
+      file:
+        path: cache
+        state: directory
+    - name: Checkout Opencraft repo
+      git:
+        repo: git@github.com:atlarge-research/opencraft-dev.git
+        dest: cache/opencraft
+        version: 13f9ffa4d50df2268998b1b5ec1a2c236eac09dd
+      register: git_opencraft
+    - name: Compile and Deploy Opencraft
+      shell: |
+        module load java/jdk-1.8.0
+        if ! which mvn; then
+          wget https://dlcdn.apache.org/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.tar.gz
+          tar xvfz apache-maven-3.8.6-bin.tar.gz
+          mv apache-maven-3.8.6 ~/
+          echo PATH="/home/$(whoami)/apache-maven-3.8.6/bin:\$PATH" >> ~/.bashrc
+          source ~/.bashrc
+          rm apache-maven-3.8.6-bin.tar.gz
+        fi
+        cd cache/opencraft
+        mvn package -DskipTests
+      when: git_opencraft.changed
+    - name: Checkout Yardstick
+      git:
+        repo: git@github.com:atlarge-research/yardstick.git
+        dest: cache/yardstick
+        version: b8890f17597b015b4077e55929105c2da2886790
+      register: git_yardstick
+    - name: Compile Yardstick
+      shell: |
+        module load java/jdk-11
+        cd {{ playbook_dir }}/cache/yardstick/yardstick
+        mvn clean package -DskipTests
+      when: git_yardstick.changed
+    - name: Checkout Pecosa
+      git:
+        repo: git@github.com:jdonkervliet/pecosa.git
+        dest: cache/pecosa

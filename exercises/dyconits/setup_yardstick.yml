@@ -1,0 +1,17 @@
+---
+- name: Create tmp dir for Yardstick
+  tempfile:
+    path: /local
+    state: directory
+  register: yardstick_tmp_dir
+- name: Copy Yardstick Jar
+  copy:
+    src: "{{ playbook_dir }}/cache/yardstick/yardstick/target/yardstick-1.0.2.jar"
+    dest: "{{ yardstick_tmp_dir.path }}"
+    remote_src: True
+  register: yardstick_jar_copy
+- name: Copy Yardstick config
+  copy:
+    src: "{{ playbook_dir }}/configs/yardstick.toml"
+    dest: "{{ yardstick_tmp_dir.path }}"
+    remote_src: True

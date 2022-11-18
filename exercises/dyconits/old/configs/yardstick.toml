@@ -6,15 +6,9 @@ host = "::1"
 port = 25565
 
 [experiment]
-id = 8
-
+id = 4
 [experiment.params]
-duration = "30"
-port = "7000"
-bots = 50
-id = 0
-nodes = 1
+bots = 25
 joininterval = 5
-interval = 5
-boxDiameter = 4
-spawnAnchor = true
+numbotsperjoin = 5
+duration = 180
