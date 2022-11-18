@@ -28,7 +28,7 @@
       register: pecosa_log_file
     - name: Get and run pecosa
       shell: |
-        source $(dirname $(dirname $(which conda)))/miniconda/etc/profile.d/conda.sh
+        source $(dirname $(dirname $(which conda)))/etc/profile.d/conda.sh
         conda activate scratch
         python {{ playbook_dir }}/cache/pecosa/pecosa.py {{ pecosa_log_file.path }} {{ server_pid }}
       # async: "{{ experiment_duration_s }}"
@@ -80,7 +80,7 @@
       register: pecosa_log_file
     - name: Get and run pecosa
       shell: |
-        source $(dirname $(dirname $(which conda)))/miniconda/etc/profile.d/conda.sh
+        source $(dirname $(dirname $(which conda)))/etc/profile.d/conda.sh
         conda activate scratch
         python {{ playbook_dir }}/cache/pecosa/pecosa.py {{ pecosa_log_file.path }} {{ yardstick_pid }} </dev/null >/dev/null 2>&1
       async: "{{ experiment_duration_s }}"
