@@ -48,6 +48,7 @@ set -u
 if ! conda compare environment.yml; then
     conda env create -q --file environment.yml --force
 fi
+conda init bash
 
 ansible-playbook -e @experiment.yml -i 'localhost' before.yml
 configs=$(python confex.py experiment.yml)
