@@ -29,7 +29,7 @@
       git:
         repo: git@github.com:atlarge-research/yardstick.git
         dest: cache/yardstick
-        version: b8890f17597b015b4077e55929105c2da2886790
+        version: 4fbecae6299779d90d27f3135f98310b34708f76
       register: git_yardstick
     - name: Compile Yardstick
       shell: |
