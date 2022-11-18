@@ -7,7 +7,7 @@
         state: directory
     - name: Checkout Opencraft repo
       git:
-        repo: git@github.com:atlarge-research/opencraft-dev.git
+        repo: git@github.com:atlarge-research/opencraft.git
         dest: cache/opencraft
         version: 13f9ffa4d50df2268998b1b5ec1a2c236eac09dd
       register: git_opencraft
