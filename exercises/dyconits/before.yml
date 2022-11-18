@@ -17,6 +17,11 @@
           # echo PATH="/home/$(whoami)/apache-maven-3.8.6/bin:\$PATH" >> ~/.bashrc
           rm apache-maven-3.8.6-bin.tar.gz
       when: not stat_maven.stat.exists
+    - name: Copy .m2 directory # this is a bit of a hack. Not needed if artifact repository has good bandwidth
+      copy:
+        src: /var/scratch/jdonkerv/.m2/
+        dest: /home/{{ ansible_user_id }}/.m2/
+      ignore_errors: yes
     - name: Checkout Opencraft repo
       git:
         repo: https://github.com/atlarge-research/opencraft.git
