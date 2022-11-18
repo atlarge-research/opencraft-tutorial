@@ -1,5 +1,5 @@
 - hosts: localhost
-  pre_tasks:
+  tasks:
     - name: Get current time
       shell: "date +%s"
       register: date
