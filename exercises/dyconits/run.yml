@@ -86,6 +86,7 @@
       register: pecosa_log_file
     - name: Get and run pecosa
       shell: |
+        conda activate scratch
         python {{ playbook_dir }}/cache/pecosa/pecosa.py {{ pecosa_log_file.path }} {{ yardstick_pid }} </dev/null >/dev/null 2>&1
       async: "{{ experiment_duration_s }}"
       poll: 0
