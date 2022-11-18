@@ -49,9 +49,9 @@ if ! conda compare environment.yml; then
     conda env create -q --file environment.yml --force
 fi
 
-ansible-playbook -e @vars.yml -e @vault.yml -i 'localhost' before.yml
+ansible-playbook -e @experiment.yml -e @vault.yml -i 'localhost' before.yml
 configs=$(python confex.py configs.yml)
 for c in $configs; do
-    ansible-playbook -e @"$c" -e "_config_path=$c" -e @vars.yml -e @vault.yml -i 'localhost' run_all.yml
+    ansible-playbook -e @"$c" -e "_config_path=$c" -e @experiment.yml -e @vault.yml -i 'localhost' run_all.yml
 done
-ansible-playbook -e @vars.yml -e @vault.yml -i 'localhost' after.yml
+ansible-playbook -e @experiment.yml -e @vault.yml -i 'localhost' after.yml
