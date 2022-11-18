@@ -1,0 +1,52 @@
+---
+- hosts: localhost
+  pre_tasks:
+    - name: Check cache directory
+      file:
+        path: cache
+        state: directory
+    - name: Check if cache contains maven
+      stat:
+        path: "{{ playbook_dir }}/cache/apache-maven-3.8.6/bin/mvn"
+      register: stat_maven
+    - name: Download maven
+      shell: |
+          wget https://dlcdn.apache.org/maven/maven-3/3.8.6/binaries/apache-maven-3.8.6-bin.tar.gz
+          tar xvfz apache-maven-3.8.6-bin.tar.gz
+          mv apache-maven-3.8.6 {{ playbook_dir }}/cache/
+          # echo PATH="/home/$(whoami)/apache-maven-3.8.6/bin:\$PATH" >> ~/.bashrc
+          rm apache-maven-3.8.6-bin.tar.gz
+      when: not stat_maven.stat.exists
+    - name: Copy .m2 directory # this is a bit of a hack. Not needed if artifact repository has good bandwidth
+      ansible.posix.synchronize:
+        src: /var/scratch/jdonkerv/.m2/
+        dest: /home/{{ ansible_user_id }}/.m2/
+      ignore_errors: yes
+    - name: Checkout Opencraft repo
+      git:
+        repo: https://github.com/atlarge-research/opencraft.git
+        dest: cache/opencraft
+        version: 13f9ffa4d50df2268998b1b5ec1a2c236eac09dd
+      register: git_opencraft
+    - name: Compile Opencraft
+      shell: |
+        module load java/jdk-1.8.0
+        cd {{ playbook_dir }}/cache/opencraft
+        {{ playbook_dir }}/cache/apache-maven-3.8.6/bin/mvn clean package -DskipTests
+      when: git_opencraft.changed
+    - name: Checkout Yardstick
+      git:
+        repo: https://github.com/atlarge-research/yardstick.git
+        dest: cache/yardstick
+        version: 4fbecae6299779d90d27f3135f98310b34708f76
+      register: git_yardstick
+    - name: Compile Yardstick
+      shell: |
+        module load java/jdk-11
+        cd {{ playbook_dir }}/cache/yardstick/yardstick
+        {{ playbook_dir }}/cache/apache-maven-3.8.6/bin/mvn clean package -DskipTests
+      when: git_yardstick.changed
+    - name: Checkout Pecosa
+      git:
+        repo: https://github.com/jdonkervliet/pecosa.git
+        dest: cache/pecosa

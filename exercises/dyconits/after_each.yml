@@ -1,0 +1,51 @@
+# CLEAN UP
+- hosts: client
+  gather_facts: False
+  tasks:
+    # Move pecosa log file to localhost, with useful name
+    - name: Copy Yardstick temp dir to output dir
+      copy:
+        src: "{{ yardstick_tmp_dir.path }}/"
+        dest: "{{ hostvars['localhost']['output_path'] }}"
+        remote_src: True
+    - name: Copy pecosa log to output dir
+      copy:
+        src: "{{ pecosa_log_file.path }}"
+        dest: "{{ hostvars['localhost']['output_path'] }}/pecosa-yardstick-{{ inventory_hostname }}.log"
+        remote_src: True
+    - name: Remove temp dir
+      file:
+        path: "{{ yardstick_tmp_dir.path }}"
+        state: absent
+- hosts: server
+  gather_facts: False
+  tasks:
+    # Move pecosa log file to localhost, with useful name
+    - name: Copy Opencraft temp dir to output dir
+      copy:
+        src: "{{ opencraft_tmp_dir.path }}/"
+        dest: "{{ hostvars['localhost']['output_path'] }}"
+        remote_src: True
+    - name: Copy pecosa log to output dir
+      copy:
+        src: "{{ pecosa_log_file.path }}"
+        dest: "{{ hostvars['localhost']['output_path'] }}/pecosa-opencraft.log"
+        remote_src: True
+    - name: Remove temp dir
+      file:
+        path: "{{ opencraft_tmp_dir.path }}"
+        state: absent
+- hosts: localhost
+  gather_facts: False
+  tasks:
+    - name: Cancel reservation
+      shell: |
+        module load prun
+        preserve -c {{ reservation_number }}
+    - name: Get current time
+      shell: "date +%s"
+      register: date
+    - set_fact:
+        end_time: "{{ date.stdout }}"
+    - set_fact:
+        duration: "{{ (end_time | int) - (start_time | int) }}"

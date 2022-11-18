@@ -5,17 +5,32 @@ import plotly.express as px
 from kaleido.scopes.plotly import PlotlyScope
 scope = PlotlyScope()
 import os
+import subprocess
+import yaml
 
 template = "plotly_white"
 
-data = pathlib.Path(os.path.abspath(__file__)).parent.parent.joinpath("results").absolute()
-assert data.is_dir()
-data_file = data.joinpath("pecosa.log")
-assert data_file.is_file()
-output_dir = pathlib.Path(__file__).parent.absolute()
-assert output_dir.is_dir()
+hash = subprocess.check_output("git rev-parse --short HEAD", shell=True).decode().strip()
+data = pathlib.Path(os.path.abspath(__file__)).parent.joinpath("output", hash, "0").absolute()
+output_dir = data.parent.joinpath("plots")
+os.makedirs(output_dir, exist_ok=True)
 
-df = pandas.read_csv(data_file, sep="\t")
+output_dirs = os.listdir(data)
+
+frames = []
+for d in [data.joinpath(x) for x in output_dirs]:
+    with open(d.joinpath("config.yml")) as f:
+        config = yaml.safe_load(f)
+    data_file = d.joinpath("pecosa-opencraft.log")
+    df = pandas.read_csv(data_file, sep="\t")
+    df["config"] = config["policy"]
+    df["policy"] = config["policy"]
+    df["iteration"] = config["_iteration"]
+    df["index"] = config["_index"]
+    frames.append(df)
+    
+df = pandas.concat(frames)
+
 df["timestamp"] = df.groupby(["iteration", "config"])["timestamp"].transform(lambda x: x - x.min())
 df["net.packets_sent.ib0"] = df.groupby(["iteration", "config"])["net.packets_sent.ib0"].transform(
     lambda x: x - x.min())

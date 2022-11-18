@@ -1,0 +1,8 @@
+experiment_duration_s: 800
+iterations: 1
+
+config:
+  type: one_by_one
+  params:
+    - name: policy
+      values: ["zero"]

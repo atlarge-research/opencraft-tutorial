@@ -1,0 +1,20 @@
+---
+- name: Create tmp dir for Opencraft
+  tempfile:
+    path: /local
+    state: directory
+  register: opencraft_tmp_dir
+- name: Copy Opencraft Jar
+  copy:
+    src: "{{ playbook_dir }}/cache/opencraft/target/opencraft.jar"
+    dest: "{{ opencraft_tmp_dir.path }}"
+    remote_src: True
+  register: opencraft_jar_copy
+- name: Ensure Opencraft config directory
+  file:
+    path: "{{ opencraft_tmp_dir.path }}/config"
+    state: directory
+- name: Copy Opencraft config
+  template:
+    src: "{{ playbook_dir }}/configs/opencraft.yml.jinja"
+    dest: "{{ opencraft_tmp_dir.path }}/config/opencraft.yml"

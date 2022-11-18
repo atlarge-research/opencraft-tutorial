@@ -1,0 +1,40 @@
+---
+- name: Reserve node
+  shell: |
+    module load prun
+    preserve -np 2 900
+  register: results
+- set_fact:
+    reservation_number: "{{ results.stdout | regex_search(regexp, '\\1') | first }}"
+  vars:
+    regexp: "Reservation number (.+):"
+- debug:
+    var: reservation_number
+- name: Wait until nodes are ready
+  shell: |
+    module load prun
+    preserve -llist | grep -E "^{{ reservation_number }}" | cut -d$'\t' -f 7
+  register: output
+  until: output.stdout == "R"
+  retries: 120
+  delay: 5
+- name: Get node hostnames
+  shell: |
+    module load prun
+    preserve -llist | grep -E "^{{ reservation_number }}" | cut -d$'\t' -f 9
+  register: output
+- debug:
+    var: output
+- name: Add server hostnames to playbook
+  add_host:
+    name: "{{ output.stdout.split()[0] }}"
+    groups:
+      - worker
+      - server
+- name: Add yardstick hostnames to playbook
+  add_host:
+    name: "{{ item }}"
+    groups:
+      - worker
+      - client
+  loop: "{{ output.stdout.split()[1:] }}"

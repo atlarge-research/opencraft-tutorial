@@ -1,0 +1,118 @@
+# LAUNCH PROGRAMS
+- hosts: server
+  gather_facts: False
+  tasks:
+    - name: Run server
+      shell: |
+        module load java/jdk-1.8.0
+        java -jar {{ opencraft_jar_copy.dest }}
+      args:
+        chdir: "{{ opencraft_tmp_dir.path }}"
+      async: "{{ experiment_duration_s }}"
+      poll: 0
+    - name: Sleep 1
+      pause:
+        seconds: 1
+    - name: Get server PID
+      shell: |
+        pgrep -u "$(whoami)" -f "^java -jar .*/opencraft.jar"
+      register: output
+    - set_fact:
+        server_pid: "{{ output.stdout }}"
+    - name: Print Opencraft PID
+      debug:
+        var: server_pid
+    - name: Create temporary log file
+      tempfile:
+        path: /local
+      register: pecosa_log_file
+    - name: Get and run pecosa
+      shell: |
+        source $(dirname $(dirname $(which conda)))/etc/profile.d/conda.sh
+        conda activate scratch
+        python {{ playbook_dir }}/cache/pecosa/pecosa.py {{ pecosa_log_file.path }} {{ server_pid }}
+      async: "{{ experiment_duration_s }}"
+      poll: 0
+    - name: Sleep 1
+      pause:
+        seconds: 1
+    - name: Get pecosa PID
+      shell: |
+        pgrep -u "$(whoami)" -f "^python .*/pecosa.py"
+      register: output
+    - set_fact:
+        pecosa_pid: "{{ output.stdout }}"
+    - name: Print Pecosa PID
+      debug:
+        var: pecosa_pid
+
+- hosts: client
+  gather_facts: False
+  tasks:
+    - name: Wait for server to be ready
+      pause:
+        seconds: 30
+    - set_fact:
+        server_ib_ip: "{{ '10.149.0.' ~ (groups['server'][0][-2:] | int) }}"
+    - name: Run Yardstick
+      shell: |
+        cd {{ yardstick_jar_copy.dest | dirname }}
+        module load java/jdk-11
+        java -jar {{ yardstick_jar_copy.dest }} --host {{ server_ib_ip }} 2>&1 > yardstick.log
+      register: yardstick
+      async: "{{ experiment_duration_s }}"
+      poll: 0
+    - name: Sleep 1
+      pause:
+        seconds: 1
+    - name: Get Yardstick PID
+      shell: |
+        pgrep -u "$(whoami)" -f "^java -jar {{ yardstick_jar_copy.dest }}"
+      register: output
+    - set_fact:
+        yardstick_pid: "{{ output.stdout }}"
+    - name: Print Yardstick PID
+      debug:
+        var: yardstick_pid
+    - name: Create temporary log file
+      tempfile:
+        path: /local
+      register: pecosa_log_file
+    - name: Get and run pecosa
+      shell: |
+        source $(dirname $(dirname $(which conda)))/etc/profile.d/conda.sh
+        conda activate scratch
+        python {{ playbook_dir }}/cache/pecosa/pecosa.py {{ pecosa_log_file.path }} {{ yardstick_pid }} </dev/null >/dev/null 2>&1
+      async: "{{ experiment_duration_s }}"
+      poll: 0
+      args:
+        executable: /bin/bash
+    - name: Sleep 1
+      pause:
+        seconds: 1
+    - name: Get pecosa PID
+      shell: |
+        pgrep -u `whoami` -f "^python {{ playbook_dir }}/cache/pecosa/pecosa.py"
+      register: output
+    - set_fact:
+        pecosa_pid: "{{ output.stdout }}"
+    - name: Print Pecosa PID
+      debug:
+        var: pecosa_pid
+    - name: Wait for Yardstick to complete
+      async_status:
+        jid: "{{ yardstick.ansible_job_id }}"
+      register: job_result
+      until: job_result.finished
+      retries: "{{ (experiment_duration_s / 10) | int }}"
+      delay: 10
+
+# STOP PROGRAMS
+- hosts: server
+  gather_facts: False
+  tasks:
+    - name: Stop Pecosa
+      shell: "kill {{ pecosa_pid }}"
+    - name: Kill java
+      shell: "killall java"
+      ignore_errors: True

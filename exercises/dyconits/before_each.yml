@@ -1,0 +1,50 @@
+- hosts: localhost
+  tasks:
+    - name: Get current time
+      shell: "date +%s"
+      register: date
+    - set_fact:
+        start_time: "{{ date.stdout }}"
+
+    - name: Get hash of current commit
+      shell: |
+        git rev-parse --short HEAD
+      register: gitRevParse
+    - set_fact:
+        hash: "{{ gitRevParse.stdout }}"
+    - set_fact:
+        output_path: "{{ playbook_dir }}/output/{{ hash }}/{{ _iteration }}/{{ _index }}"
+    
+    - name: Check existance of output folder
+      stat:
+        path: "{{ output_path }}"
+      register: stat_output_path
+    - block:
+        - name: "end play if experiment already ran"
+          debug:
+            msg: "experiment already ran, exiting"
+        - meta: end_play
+      when: stat_output_path.stat.exists
+    - name: Ensure output directory exists
+      file:
+        path: "{{ output_path }}"
+        state: directory
+    - name: Copy iteration config to output directory
+      copy:
+        src: "{{ _config_path }}"
+        dest: "{{ output_path }}/config.yml"
+    - name: Remove original iteration config
+      file:
+        path: "{{ _config_path }}"
+        state: absent
+    - import_tasks: setup_nodes.yml
+
+# DOWNLOAD, COMPILE, AND SET UP DEPENDENCIES
+- hosts: client
+  gather_facts: False
+  tasks:
+    - import_tasks: setup_yardstick.yml
+- hosts: server
+  gather_facts: False
+  tasks:
+    - import_tasks: setup_opencraft.yml
