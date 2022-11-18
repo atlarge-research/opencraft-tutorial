@@ -58,8 +58,8 @@ The script may complain about uncommitted changes. Go ahead and commit your chan
 
 ### Questions
 
-- What system behavior is controlled by the configuration option you modified?
 - Does changing the Opencraft policy significantly affect the behavior of the system? Why (not)? [Hint: check the plots!]
+- How is the configuration option you modified propagated to the *system under test*?
 
 ## Modify Opencraft Policy
 
