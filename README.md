@@ -99,12 +99,11 @@ source ~/.bashrc # load the prun module
 
 # Exercises
 
-This tutorial consists of two exercises. In both exercises, you evaluate novel game-scalability methods by running experiments with Opencraft on the DAS5. In the first exercise, you evaluate how Dyconits improve the network bandwidth usage of the game. In the second experiment, you evaluate the performance of using serverless technology for on-demand terrain (i.e., content) generation.
+In this tutorial you evaluate novel game-scalability methods by running experiments with Opencraft on the DAS5, how Dyconits improve the network bandwidth usage of the game.
 
-You can access the exercises here:
+You can access the exercise here:
 
 - [Dyconit Exercise](./exercises/dyconits/README.md)
-- [Terrain Generation Exercise](./exercises/terrain-generation/README.md)
 
 # Wrapping Up
 

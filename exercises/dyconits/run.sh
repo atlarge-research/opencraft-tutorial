@@ -14,9 +14,9 @@ if ! which conda; then
     [Yy])
         mkdir -p ~/miniconda3
         wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh
-        bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
+        bash ~/miniconda3/miniconda.sh -b -u -p "/var/scratch/$(whoami)/miniconda3"
         rm -rf ~/miniconda3/miniconda.sh
-        ~/miniconda3/bin/conda init bash
+        "/var/scratch/$(whoami)/miniconda3" init bash
         ;;
     *)
         exit
@@ -46,7 +46,7 @@ set -x
 set -u
 
 if ! conda compare environment.yml; then
-    conda env update --file environment.yml
+    conda env create -q --file environment.yml --force
 fi
 
 ansible-playbook -e @vars.yml -e @vault.yml -i 'localhost' before.yml
