@@ -39,7 +39,9 @@
   gather_facts: False
   tasks:
     - name: Cancel reservation
-      shell: "preserve -c {{ reservation_number }}"
+      shell: |
+        module load prun
+        preserve -c {{ reservation_number }}
     - name: Get current time
       shell: "date +%s"
       register: date
