@@ -13,7 +13,7 @@
     - set_fact:
         hash: "{{ gitRevParse.stdout }}"
     - set_fact:
-        output_path: "output/{{ hash }}/{{ _iteration }}/{{ _index }}"
+        output_path: "{{ playbook_dir }}/output/{{ hash }}/{{ _iteration }}/{{ _index }}"
     - name: Ensure output directory exists
       file:
         path: "{{ output_path }}"
