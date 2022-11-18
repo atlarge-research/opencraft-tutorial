@@ -34,6 +34,7 @@
     - name: Compile Yardstick
       shell: |
         module load java/jdk-11
+        source ~/.bashrc # adds mvn to PATH
         cd {{ playbook_dir }}/cache/yardstick/yardstick
         mvn clean package -DskipTests
       when: git_yardstick.changed
