@@ -124,7 +124,7 @@ In `PolicyFactory.java`, add an `else if` statement to enable the new policy:
      }
 ```
 
-Now that you have added a new policy to Opencraft, you can compile the code. To do so, go back to root of the Opencraft source code (e.g., `opencraft`) and run `mvn package -DskipTests`.
+To compile your code, go back to root of the Opencraft source code (e.g., `opencraft`) and run `mvn package -DskipTests`.
 If `mvn` is not available on your path, you can use the copy of Maven available in the cache: `../apache-maven-3.8.6/bin/mvn package -DskipTests`.
 Compilation might take a while...
 Upon successful compilation, a freshly compiled version of Opencraft should be waiting in the `target` directory.
