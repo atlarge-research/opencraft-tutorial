@@ -24,7 +24,7 @@
           debug:
             msg: "experiment already ran, exiting"
         - meta: end_play
-      when: stat_output_path.stat.exists == "no"
+      when: stat_output_path.stat.exists
     - name: Ensure output directory exists
       file:
         path: "{{ output_path }}"
