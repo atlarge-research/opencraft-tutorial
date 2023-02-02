@@ -26,7 +26,7 @@
       git:
         repo: https://github.com/atlarge-research/opencraft.git
         dest: cache/opencraft
-        version: 1.1.4-SNAPSHOT
+        version: 1.1.4-SNAPSHOT-shaded
       register: git_opencraft
     - name: Compile Opencraft
       shell: |
