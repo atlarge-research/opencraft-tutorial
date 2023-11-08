@@ -7,15 +7,15 @@
         state: directory
     - name: Check if cache contains maven
       stat:
-        path: "{{ playbook_dir }}/cache/apache-maven-3.9.3/bin/mvn"
+        path: "{{ playbook_dir }}/cache/apache-maven-3.9.5/bin/mvn"
       register: stat_maven
     - name: Download maven
       shell: |
-          wget https://dlcdn.apache.org/maven/maven-3/3.9.3/binaries/apache-maven-3.9.3-bin.tar.gz
-          tar xvfz apache-maven-3.9.3-bin.tar.gz
-          mv apache-maven-3.9.3 {{ playbook_dir }}/cache/
-          # echo PATH="/home/$(whoami)/apache-maven-3.9.3/bin:\$PATH" >> ~/.bashrc
-          rm apache-maven-3.9.3-bin.tar.gz
+          wget https://dlcdn.apache.org/maven/maven-3/3.9.5/binaries/apache-maven-3.9.5-bin.tar.gz
+          tar xvfz apache-maven-3.9.5-bin.tar.gz
+          mv apache-maven-3.9.5 {{ playbook_dir }}/cache/
+          # echo PATH="/home/$(whoami)/apache-maven-3.9.5/bin:\$PATH" >> ~/.bashrc
+          rm apache-maven-3.9.5-bin.tar.gz
       when: not stat_maven.stat.exists
     - name: Copy .m2 directory # this is a bit of a hack. Not needed if artifact repository has good bandwidth
       ansible.posix.synchronize:
@@ -32,7 +32,7 @@
       shell: |
         module load java/jdk-1.8.0
         cd {{ playbook_dir }}/cache/opencraft
-        {{ playbook_dir }}/cache/apache-maven-3.9.3/bin/mvn clean package -DskipTests
+        {{ playbook_dir }}/cache/apache-maven-3.9.5/bin/mvn clean package -DskipTests
       when: git_opencraft.changed
     - name: Checkout Yardstick
       git:
@@ -44,7 +44,7 @@
       shell: |
         module load java/jdk-11
         cd {{ playbook_dir }}/cache/yardstick/yardstick
-        {{ playbook_dir }}/cache/apache-maven-3.9.3/bin/mvn clean package -DskipTests
+        {{ playbook_dir }}/cache/apache-maven-3.9.5/bin/mvn clean package -DskipTests
       when: git_yardstick.changed
     - name: Checkout Pecosa
       git:
