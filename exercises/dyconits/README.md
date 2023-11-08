@@ -79,7 +79,7 @@ cd opencraft/src/main/java/science/atlarge/opencraft/opencraft/messaging/dyconit
 cp ChunkPolicy.java NewChunkPolicy.java
 ```
 
- In `NewChunkPolicy.java`, change the class name and swap the parameters passed to the `Bounds` constructor:
+ In `NewChunkPolicy.java`, change the class name and update the consistency bounds from a *numerical error* of 2 to a *staleness error* of 1000ms:
 
 ```
  import science.atlarge.opencraft.dyconits.policies.DyconitPolicy;
@@ -104,7 +104,7 @@ cp ChunkPolicy.java NewChunkPolicy.java
                  Chunk chunk = world.getChunkAt(x, z);
                  String dyconitName = chunkToName(chunk);
 -                chunks.add(new DyconitSubscribeCommand<>(sub.getKey(), sub.getCallback(), new Bounds(Integer.MAX_VALUE / 2, 2), dyconitName));
-+                chunks.add(new DyconitSubscribeCommand<>(sub.getKey(), sub.getCallback(), new Bounds(2, Integer.MAX_VALUE / 2), dyconitName));
++                chunks.add(new DyconitSubscribeCommand<>(sub.getKey(), sub.getCallback(), new Bounds(1000, Integer.MAX_VALUE / 2), dyconitName));
                  playerSubscriptions.add(dyconitName);
              }
          }
